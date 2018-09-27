@@ -1,0 +1,25 @@
+<div class="alert alert-{{globals.type}}" role="alert" *ngIf="globals.msgflag">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+  {{globals.message}}
+</div>
+<br><br>
+<div *ngIf="globals.authData==undefined">
+<div class="panel-heading" *ngFor="let Setting of SettingList;let i = index">
+  Home Page
+  <div class="btn-group pull-right add-right">
+   <a routerLink="/{{Setting.Path}}"  class="btn btn-danger btn-add">
+   <i class="fa fa-plus fa-fw"></i>New User Registration
+   </a>
+ </div>
+</div>
+</div>
+
+<br>
+<div class="panel-heading">
+    
+    <div class="btn-group pull-right add-right">
+     <a routerLink="/userrequest/add"  class="btn btn-danger btn-add">
+     <i class="fa fa-plus fa-fw"></i>User Request to Invite
+     </a>
+   </div>
+  </div>

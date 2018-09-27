@@ -1,0 +1,40 @@
+<header>
+  <div class="container ">
+    <div class="row"> 
+      <!-- Logo -->
+      
+      <!-- End Logo --> 
+    
+    
+      <!-- <div class="col-md-10 col-sm-9 col-xs-9 text-right" *ngIf="globals.authData==undefined">
+        <ul class="account_menu">
+          <li><a routerLink="/login"> <i class="fa fa-sign-in" aria-hidden="true"></i> Sign In</a></li>   
+        </ul>
+      </div> -->
+    
+
+		<div *ngIf="globals.authData!=undefined">
+        <ul class="account_menu">
+          <li><a href="#" class="dropdown-toggle dashboard-toggle" data-toggle="dropdown" aria-expanded="true"><i class="fa fa-user" aria-hidden="true"></i> {{ globals.authData.FirstName}} <i class="fa fa-angle-double-down" aria-hidden="true"></i></a>
+            <ul class="dropdown-menu">
+              <li><a routerLink="/userprofile/edit/{{globals.authData.UserId}}">Edit Profile</a></li>
+              <li><a routerLink="/changepass/">Change Password</a></li>
+              <li><a  (click)="logout()">Sign Out</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-5 col-sm-6">
+        <div class="four_strips">
+          <div class="one_strip"></div>
+          <div class="two_strip"></div>
+          <div class="three_strip"></div>
+          <div class="four_strip"></div>
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+    </div>
+	
+  </div>
+</header>

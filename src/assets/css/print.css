@@ -1,0 +1,70 @@
+@charset "utf-8";
+/* CSS Document */
+
+@media print {
+
+/* ---- for user-assessment-details page Style Start ---- */
+  header, footer, .export-data, .back_btn, .alert-info {
+	display: none;
+  }
+  
+  .grey_box {
+	page-break-after: always;
+  }
+  
+  .grey_box .generaluser_chart_block {
+	width:100% !important;
+  }
+
+  .nav-tabs {
+    display: none !important;
+  }
+  
+  .tab-content > .tab-pane {
+    display: block !important;
+	/* page-break-after: always; */
+  }
+  
+  .tab-content > .fade {
+    opacity: 1;
+  }
+  
+  .domain_desc {
+	border: 1px solid #fff !important;
+  }
+  
+  .tab-content > .tab-pane:last-child {
+     page-break-after: auto !important;
+	}
+	
+/* ---- for user-assessment-details page Style End ---- */
+
+/* ---- for sales-user-details page Style Start ---- */
+
+  .text-center .red_btn {
+	display: none;
+   }
+
+  .tab-content > .tab-pane > .generaluser_chart_block {
+	width:100% !important;
+	page-break-after: always;
+   }
+   
+   .course_block .next_btn {
+	display: none;
+   }
+   
+   /* .panel-default { */
+	   /* page-break-after: always; */
+   /* } */
+   
+   /* .panel-default:last-child { */
+     /* page-break-after: auto !important; */
+	/* } */
+
+
+/* ---- for sales-user-details page Style End ---- */
+	
+	
+  
+}
