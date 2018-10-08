@@ -46,7 +46,7 @@ class User_model extends CI_Model
 			"PhoneNumberL"=>trim($post_user['PhoneNumberL']),
 
 			//"IsActive"=>$IsActive,
-			"CreatedBy"=>1,
+			"CreatedBy"=>trim($post_user['CreatedBy']),
 			"CreatedOn"=>date('y-m-d H:i:s')
 			//"UpdatedBy"=>1
 				
@@ -55,6 +55,7 @@ class User_model extends CI_Model
 				$res=$this->db->insert('tbluser',$user_data);
 				if($res)
 				{
+					
 					return true;
 				}
 				else

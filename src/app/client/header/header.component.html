@@ -11,12 +11,13 @@
           <li><a routerLink="/login"> <i class="fa fa-sign-in" aria-hidden="true"></i> Sign In</a></li>   
         </ul>
       </div> -->
-    
+      
 
 		<div *ngIf="globals.authData!=undefined">
         <ul class="account_menu">
           <li><a href="#" class="dropdown-toggle dashboard-toggle" data-toggle="dropdown" aria-expanded="true"><i class="fa fa-user" aria-hidden="true"></i> {{ globals.authData.FirstName}} <i class="fa fa-angle-double-down" aria-hidden="true"></i></a>
             <ul class="dropdown-menu">
+                <li *ngIf="globals.authData.RoleId!=3 && globals.authData.RoleId!=4"><a (click)="AdminLogin()">Administrator</a></li>
               <li><a routerLink="/userprofile/edit/{{globals.authData.UserId}}">Edit Profile</a></li>
               <li><a routerLink="/changepass/">Change Password</a></li>
               <li><a  (click)="logout()">Sign Out</a></li>

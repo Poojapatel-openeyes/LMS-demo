@@ -9,6 +9,7 @@ export class Globals {
 
   baseAPIUrl: string =environment.baseUrl+'/api/';  
   baseUrl: string = environment.baseUrl;
+  base: string = environment.baseU;
   // //baseAPIUrl: string = 'http://localhost:4200/LMS/api/';  
   // baseUrl: string = 'http://localhost/LMSTOOL/api/';
   headerpath: string = "{'Content-Type': 'application/json','Accept': 'application/json'}";

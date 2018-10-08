@@ -20,13 +20,20 @@ class Department_model extends CI_Model
 				"DepartmentName"=>trim($post_department['DepartmentName']),
 				"IsActive"=>$IsActive,
 				'CreatedOn' => date('y-m-d H:i:s'),
-				"CreatedBy" =>1,
-				"UpdatedBy" =>1
+				"CreatedBy" =>trim($post_department['CreatedBy'])
+				
 			);	
 				
 				$res=$this->db->insert('tblmstdepartment',$department_data);
 				if($res)
 				{
+					$log_data = array(
+						'UserId' => trim($post_department['CreatedBy']),
+						'Module' => 'Department',
+						'Activity' =>'Add'
+		
+					);
+					$log = $this->db->insert('tblactivitylog',$log_data);
 					return true;
 				}
 				else
@@ -43,9 +50,10 @@ class Department_model extends CI_Model
 	//list project status
 	public function getlist_department()
 	{
-		$this->db->select('*');
-	//	$this->db->order_by('DepartmentName','asc');
-		$result=$this->db->get('tblmstdepartment');
+		//$this->db->select('*');
+		$this->db->select('dep.DepartmentId,dep.DepartmentName,dep.IsActive,(SELECT COUNT(u.UserId) FROM tbluser as u WHERE u.DepartmentId=dep.DepartmentId) as isdisabled');
+		$this->db->order_by('DepartmentName','asc');
+		$result=$this->db->get('tblmstdepartment dep');
 		
 		$res=array();
 		if($result->result())
@@ -63,10 +71,17 @@ class Department_model extends CI_Model
 		if($department_id) 
 		{
 			
-			$this->db->where('DepartmentId',$department_id);
+			$this->db->where('DepartmentId',$department_id['id']);
 			$res = $this->db->delete('tblmstdepartment');
 			
 			if($res) {
+				$log_data = array(
+					'UserId' =>  trim($department_id['Userid']),
+					'Module' => 'Department',
+					'Activity' =>'Delete'
+	
+				);
+				$log = $this->db->insert('tblactivitylog',$log_data);
 				return true;
 			} else {
 				return false;
@@ -96,7 +111,7 @@ class Department_model extends CI_Model
 				"DepartmentId"=>$post_department['DepartmentId'],
 				"DepartmentName"=>$post_department['DepartmentName'],
 				"IsActive"=>$IsActive,
-				"UpdatedBy" =>1,
+				"UpdatedBy" => $post_department['UpdatedBy'],
 				'UpdatedOn' => date('y-m-d H:i:s')
 			);
 			
@@ -104,7 +119,14 @@ class Department_model extends CI_Model
 			$res = $this->db->update('tblmstdepartment',$department_data);
 			
 			if($res) 
-			{
+			{	
+				$log_data = array(
+				'UserId' => $post_department['UpdatedBy'],
+				'Module' => 'Department',
+				'Activity' =>'Update'
+
+			);
+			$log = $this->db->insert('tblactivitylog',$log_data);
 				return true;
 			} else
 				{
@@ -123,7 +145,7 @@ class Department_model extends CI_Model
 	{
 	  if($department_id)
 	  {
-		 $this->db->select('*');
+		 $this->db->select('DepartmentId,DepartmentName,IsActive');
 		 $this->db->where('DepartmentId',$department_id);
 		 $result=$this->db->get('tblmstdepartment');
 		 $department_data = array();

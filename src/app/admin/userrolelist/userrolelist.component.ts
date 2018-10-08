@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { UserroleService } from '../services/userrole.service';
 import { Globals } from '.././globals';
-declare var $: any;
+declare var $,swal: any;
 
 @Component({
   selector: 'app-userrolelist',
@@ -15,7 +15,7 @@ export class UserrolelistComponent implements OnInit {
 
   userroleList;
   deleteEntity;
- msgflag;
+	msgflag;
 	message;
 	type;
 	//globals;
@@ -58,7 +58,8 @@ export class UserrolelistComponent implements OnInit {
   
   deleteConfirm(userrole)
 	{ 
-		this.UserroleService.deleteUserrole(userrole.RoleId)
+		var del={'Userid':this.globals.authData.UserId,'id':userrole.RoleId};
+		this.UserroleService.delete(del)
 		.then((data) => 
 		{
 			let index = this.userroleList.indexOf(userrole);
@@ -80,14 +81,21 @@ export class UserrolelistComponent implements OnInit {
 			// this.globals.message = 'Data Deleted successfully!';
 			// this.globals.type = 'success';
 			// this.globals.msgflag = true;
+			swal({
+				position: 'top-end',
+				type: 'success',
+				title: 'Data Deleted successfully!',
+				showConfirmButton: false,
+				timer: 1500
+			})
 		}, 
 		(error) => 
 		{
 			$('#Delete_Modal').modal('hide');
 			if(error.text){
-				// this.globals.message = "You can't delete this record because of their dependency!";
-				// this.globals.type = 'danger';
-				// this.globals.msgflag = true;
+				this.globals.message = "You can't delete this record because of their dependency!";
+				this.globals.type = 'danger';
+				this.globals.msgflag = true;
 			}	
 		});	
 	}

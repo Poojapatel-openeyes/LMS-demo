@@ -77,11 +77,21 @@ class Register_model extends CI_Model
 
 	public function getlist_user()
 	{
-			$this->db->select('*');
+			// $this->db->select('*');
+			// $this->db->order_by('FirstName','asc');
+			// $this->db->where('Status',3);
+			// $result = $this->db->get('tbluser');
+
+
+			$this->db->select('us.UserId,us.RoleId,us.CompanyId,us.FirstName,us.LastName,us.EmailAddress,us.PhoneNumber,us.Status,cp.Name,role.RoleName,dep.DepartmentName');
+			$this->db->join('tblcompany cp','cp.CompanyId = us.CompanyId', 'left');
+			$this->db->join('tblmstdepartment dep','dep.DepartmentId = us.DepartmentId', 'left');
+			$this->db->join('tblmstuserrole role','role.RoleId = us.RoleId', 'left');
+			$this->db->order_by('us.UserId','asc');
 			$this->db->order_by('FirstName','asc');
 			$this->db->where('Status',3);
-			$result = $this->db->get('tbluser');
-
+			$this->db->where('role.RoleId!=',5);
+			$result = $this->db->get('tbluser us');			
 			$res=array();
 			if($result->result())
 			{
@@ -99,7 +109,19 @@ class Register_model extends CI_Model
 		if($post_user) 
 		{		
 			$this->db->where('UserId',$post_user['id']);
-			$res = $this->db->delete('tbluser');	
+			$res = $this->db->delete('tbluser');
+			if($res) {
+				$log_data = array(
+					'UserId' =>  trim($post_user['id']),
+					'Module' => 'Register User',
+					'Activity' =>'Delete'
+	
+				);
+				$log = $this->db->insert('tblactivitylog',$log_data);
+				return true;
+			} else {
+				return false;
+			}	
 		} 
 		else 
 		{
@@ -135,13 +157,25 @@ class Register_model extends CI_Model
 				"PhoneNumber"=>trim($post_user['PhoneNumber']),
 				"PhoneNumberL"=>trim($post_user['PhoneNumberL']),
 				"IsActive"=>$IsActive,
-				"UpdatedBy"=>1,
+				"UpdatedBy" =>trim($post_user['UpdatedBy']),
 				"UpdatedOn"=> date('y-m-d H:i:s')
 			  );
 			
 		
 			$this->db->where('UserId',trim($post_user['UserId']));
 			$res = $this->db->update('tbluser',$user_data);
+			if($res) {
+				$log_data = array(
+					'UserId' => trim($post_user['UpdatedBy']),
+					'Module' => 'Register User',
+					'Activity' =>'Edit'
+	
+				);
+				$log = $this->db->insert('tblactivitylog',$log_data);
+				return true;
+			} else {
+				return false;
+			}
 		
 		}
 		else 
@@ -179,6 +213,8 @@ class Register_model extends CI_Model
 	function getlist_state()
 	{
 		$this->db->select('*');
+		$this->db->order_by('StateName','asc');
+		$this->db->where('IsActive=',1);
 		$result=$this->db->get('tblmststate');
 		
 		$res=array();
@@ -192,6 +228,8 @@ class Register_model extends CI_Model
 	function getlist_company()
 	{
 		$this->db->select('*');
+		$this->db->where('IsActive=',1);
+		$this->db->order_by('Name','asc');
 		$result=$this->db->get('tblcompany');
 		
 		$res=array();
@@ -205,7 +243,9 @@ class Register_model extends CI_Model
 	public function getlist_department()
 	{
 		$this->db->select('*');
-	//	$this->db->order_by('DepartmentName','asc');
+		
+		$this->db->where('IsActive=',1);
+		$this->db->order_by('DepartmentName','asc');
 		$result=$this->db->get('tblmstdepartment');
 		
 		$res=array();
@@ -216,25 +256,16 @@ class Register_model extends CI_Model
 		return $res;
 	}
 
-	public function getlist_sales()
-	{
-		$this->db->select('UserId as Sales_Assign,RoleId,FirstName,LastName');
-		$this->db->where('RoleId',2);
-		$this->db->order_by('FirstName','asc');
-		$result=$this->db->get('tbluser');
-		
-		$res=array();
-		if($result->result())
-		{
-			$res=$result->result();
-		}
-		return $res;
-	}
+	
 
 	//list user role
 	public function getlist_userrole()
 	{
 		$this->db->select('RoleId,RoleName');
+		$this->db->where('RoleId!=','5');
+		$this->db->where('RoleId!=','1');
+		$this->db->order_by('RoleName','asc');
+		$this->db->where('IsActive=',1);
 		$result=$this->db->get('tblmstuserrole');
 		
 		$res=array();
@@ -248,6 +279,8 @@ class Register_model extends CI_Model
 	public function getlist_country() {
 	
 		$this->db->select('*');
+		$this->db->order_by('CountryName','asc');
+		$this->db->where('IsActive=',1);
 		$result = $this->db->get('tblmstcountry');
 		$res = array();
 		if($result->result()) {

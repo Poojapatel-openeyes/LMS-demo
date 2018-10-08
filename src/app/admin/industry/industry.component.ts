@@ -5,7 +5,7 @@ import { IndustryService } from '../services/industry.service';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 
-declare var $: any;
+declare var $: any,swal: any;
 @Component({
 	selector: 'app-industry',
 	providers: [IndustryService],
@@ -62,12 +62,15 @@ export class IndustryComponent implements OnInit {
 	addIndustry(IndustryForm) 
 	{		
 		  let id = this.route.snapshot.paramMap.get('id');
-		  if(id){
-			  this.submitted = false;
-		  } else {
-			  this.IndustryEntity.IndustryId = 0;
-			  this.submitted = true;
-		  }
+		  if (id) {
+			this.IndustryEntity.UpdatedBy = this.globals.authData.UserId;
+			this.submitted = false;
+		} else {
+			this.IndustryEntity.CreatedBy = this.globals.authData.UserId;
+			this.IndustryEntity.UpdatedBy = this.globals.authData.UserId;
+			this.IndustryEntity.IndustryId = 0;
+			this.submitted = true;
+		}
 		  if(IndustryForm.valid){
 			  this.btn_disable = true;
 			  this.IndustryService.add(this.IndustryEntity)
@@ -80,13 +83,27 @@ export class IndustryComponent implements OnInit {
 				  this.IndustryEntity = {};
 				  IndustryForm.form.markAsPristine();
 				  if (id) {
-					this.globals.message = 'Industry Updated Successfully';
-					this.globals.type = 'success';
-					this.globals.msgflag = true;
+					// this.globals.message = 'Industry Updated Successfully';
+					// this.globals.type = 'success';
+					// this.globals.msgflag = true;
+					swal({
+						position: 'top-end',
+						type: 'success',
+						title: 'Industry Updated Successfully',
+						showConfirmButton: false,
+						timer: 1500
+					})
 				} else {
-					this.globals.message = 'Industry Added Successfully';
-					this.globals.type = 'success';
-					this.globals.msgflag = true;
+					// this.globals.message = 'Industry Added Successfully';
+					// this.globals.type = 'success';
+					// this.globals.msgflag = true;
+					swal({
+						position: 'top-end',
+						type: 'success',
+						title: 'Industry Added Successfully',
+						showConfirmButton: false,
+						timer: 1500
+					})
 				} 
 				  this.router.navigate(['/admin/industry/list']);
 			  }, 

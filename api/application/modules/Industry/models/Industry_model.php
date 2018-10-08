@@ -17,15 +17,21 @@ class Industry_model extends CI_Model
 				"IndustryId"=>trim($post_Industry['IndustryId']),
 				'IndustryName' => trim($post_Industry['IndustryName']),
 				"IsActive"=>$IsActive,
-				"CreatedBy" =>1,
-				"UpdatedBy" =>1
+				"CreatedBy" => trim($post_Industry['CreatedBy']),
+				"CreatedOn" =>date('y-m-d H:i:s')
 			
 			);
 			
 			$res = $this->db->insert('tblmstindustry',$Industry_data);
 			
 			if($res) {
-				
+				$log_data = array(
+					'UserId' => trim($post_Industry['CreatedBy']),
+					'Module' => 'Industry',
+					'Activity' =>'Add'
+	
+				);
+				$log = $this->db->insert('tblactivitylog',$log_data);			
 				return true;
 			} else {
 				return false;
@@ -38,9 +44,10 @@ class Industry_model extends CI_Model
 	
 	public function getlist_Industry() {
 	
-		$this->db->select('*');
+		
+			$this->db->select('in.IndustryId,in.IndustryName,in.IsActive,(SELECT COUNT(CompanyId) FROM tblcompany as com WHERE com.IndustryId=in.IndustryId) as isdisabled');
 			$this->db->order_by('IndustryName','asc');
-			$result = $this->db->get('tblmstindustry');
+			$result = $this->db->get('tblmstindustry in');
 
 			$res=array();
 			if($result->result())
@@ -57,7 +64,7 @@ class Industry_model extends CI_Model
 		
 		if($Industry_Id) {
 			
-			$this->db->select('*');
+			$this->db->select('IndustryId,IndustryName,IsActive');
 			$this->db->where('IndustryId',$Industry_Id);
 			$result = $this->db->get('tblmstindustry');
 			
@@ -84,7 +91,7 @@ class Industry_model extends CI_Model
 			$Industry_data = array(
 				'IndustryName' => trim($post_Industry['IndustryName']),
 				"IsActive"=>$IsActive,
-				"UpdatedBy" =>1,
+				"UpdatedBy" => trim($post_Industry['UpdatedBy']),
 				'UpdatedOn' => date('y-m-d H:i:s')
 			
 			);
@@ -93,6 +100,13 @@ class Industry_model extends CI_Model
 			$res = $this->db->update('tblmstindustry',$Industry_data);
 			
 			if($res) {
+				$log_data = array(
+					'UserId' => trim($post_Industry['UpdatedBy']),
+					'Module' => 'Industry',
+					'Activity' =>'Edit'
+	
+				);
+				$log = $this->db->insert('tblactivitylog',$log_data);			
 				return true;
 			} else {
 				return false;
@@ -112,8 +126,8 @@ class Industry_model extends CI_Model
 			$res = $this->db->delete('tblmstindustry');
 			
 			if($res) {
-				$log_data = array(
-					'UserId' => trim($post_Industry['Userid']),
+				 $log_data = array(
+					'UserId' =>trim($post_Industry['Userid']),
 					'Module' => 'Industry',
 					'Activity' =>'Delete'
 

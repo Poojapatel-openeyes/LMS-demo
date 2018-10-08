@@ -5,7 +5,7 @@ import { Globals } from '.././globals';
 import { ActivatedRoute } from '@angular/router';
 import { UserinviteService } from '../services/userinvite.service';
 
-
+declare var $,swal: any;
 @Component({
   selector: 'app-userinvite',
   providers: [UserinviteService],
@@ -88,9 +88,16 @@ export class UserinviteComponent implements OnInit {
 					.then((data) => {
 
 						if(data=='Fail'){
-							this.globals.message = 'Your email address already Registered!';
-							this.globals.type = 'danger';
-							this.globals.msgflag = true;
+							// this.globals.message = 'Your email address already Registered!';
+							// this.globals.type = 'danger';
+							// this.globals.msgflag = true;
+							swal({
+								position: 'top-end',
+								type: 'danger',
+								title: 'Your email address already Registered!',
+								showConfirmButton: false,
+								timer: 1500
+							})
 							this.router.navigate(['/admin/userinvite/list']);
 						} else {
 						//alert('success');
@@ -98,9 +105,17 @@ export class UserinviteComponent implements OnInit {
 						this.submitted = false;
 						this.inviteUserEntity = {};
 						inviteForm.form.markAsPristine();	
-						this.globals.message = 'User Invited Successfully!';
-						this.globals.type = 'success';
-						this.globals.msgflag = true;
+						// this.globals.message = 'User Invited Successfully!';
+						// this.globals.type = 'success';
+						// this.globals.msgflag = true;
+
+						swal({
+							position: 'top-end',
+							type: 'success',
+							title: 'User Invited Successfully!',
+							showConfirmButton: false,
+							timer: 1500
+						})
 						this.router.navigate(['/admin/userinvite/list']);
 						}
 					//	alert('success');

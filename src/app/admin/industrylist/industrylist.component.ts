@@ -6,7 +6,7 @@ import { IndustryService } from '../services/industry.service';
 
 import { Globals } from '.././globals';
 
-declare var $;
+declare var $,swal: any;
 
 @Component({
   selector: 'app-industrylist',
@@ -69,7 +69,7 @@ export class IndustrylistComponent implements OnInit {
 
 	deleteConfirm(Industry)
 	{ 
-		var del={'Userid':this.globals,'id':Industry.IndustryId};
+		var del={'Userid':this.globals.authData.UserId,'id':Industry.IndustryId};
 		this.IndustryService.delete(del)
 		.then((data) => 
 		{
@@ -79,9 +79,16 @@ export class IndustrylistComponent implements OnInit {
 				this.IndustryList.splice(index, 1);
 				//this.router.navigate(['/admin/industry/list']);			 
 			}			
-			this.globals.message = 'Industry Deleted successfully!';
-			this.globals.type = 'success';
-			this.globals.msgflag = true;	
+			// this.globals.message = 'Industry Deleted successfully!';
+			// this.globals.type = 'success';
+			// this.globals.msgflag = true;
+			swal({
+				position: 'top-end',
+				type: 'success',
+				title: 'Industry Deleted successfully!',
+				showConfirmButton: false,
+				timer: 1500
+			})	
 		}, 
 		(error) => 
 		{

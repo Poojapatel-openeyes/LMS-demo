@@ -26,7 +26,7 @@
 										
                                         <div class="form-group col-md-6">
                                             <label><span class="required">*</span>Company Name</label>
-											<input type="text" class="form-control" #Name="ngModel"	[(ngModel)]="companyEntity.Name" class="form-control" name="Name" pattern="[a-zA-Z'.$\ ]{2,100}"  maxlength="100"
+											<input type="text" class="form-control" #Name="ngModel"	[(ngModel)]="companyEntity.Name" class="form-control" name="Name" pattern="[a-zA-Z',.$\ ]{2,100}"  maxlength="100"
 											 [ngClass]="{red_border: (Name.dirty && Name.invalid) || (Name.pristine && submitted)}" required/>
 											<span class="error_span" *ngIf="(Name.dirty && Name.invalid) || (Name.pristine && submitted)"> 
 											<span *ngIf="Name.errors.required || (Name.pristine && submitted)">Please enter company name </span>
@@ -111,7 +111,34 @@
 										<div class="clearfix"></div>
 										
 									
+										<div class="form-group col-md-6">
+												<label><span class="required">*</span>Working Days</label>
+												<input type="text" class="form-control" #WorkingDays="ngModel" name="WorkingDays" 
+													[(ngModel)]="companyEntity.WorkingDays" [ngClass]="{red_border: (WorkingDays.dirty && WorkingDays.invalid) || (WorkingDays.pristine && submitted)}" pattern="[a-zA-Z',.$\ ]{2,100}" maxlength="200"  required/>
+													<span class="error_span"  *ngIf="(WorkingDays.dirty && WorkingDays.invalid) || (WorkingDays.pristine && submitted)"> 
+													<span *ngIf="WorkingDays.errors.required || (WorkingDays.pristine && submitted)">Please enter working days</span>
+													<span *ngIf="WorkingDays.errors && WorkingDays.errors.pattern">Please enter working days</span>
+												</span>
+													
+											</div>
+
+
+											<div class="form-group col-md-6">
+													<label>Parent Branch</label>
+													  <select class='select-option' required class="form-control" #CompanyId="ngModel" 
+													  [(ngModel)]="companyEntity.CompanyId" name="CompanyId" [ngClass]="{red_border: (CompanyId.dirty && CompanyId.invalid) || (CompanyId.pristine && submitted)}">
+														  <option value="">Select</option>
+														<option class='option' *ngFor='let company of CompanyList' [value]="company.CompanyId">{{company.Name}}</option>
+													 </select>
+													<!-- <span class="error_span"  *ngIf="(CompanyId.dirty && CompanyId.invalid) || (CompanyId.pristine && submitted)"> 
+														<span *ngIf="CompanyId.errors.required || (CompanyId.pristine && submitted)">Please select industry name </span>
+													</span> -->
+													 
+														
+												</div>
+
 										
+											<div class="clearfix"></div>
 																				
 										<div class="form-group col-md-6">
                                   <label><span class="required">*</span>Active?</label>
@@ -135,19 +162,7 @@
 										
 										
 										
-							  <div class="form-group col-md-6">
-									<label>Parent Branch</label>
-									  <select class='select-option' required class="form-control" #CompanyId="ngModel" 
-									  [(ngModel)]="companyEntity.CompanyId" name="CompanyId" [ngClass]="{red_border: (CompanyId.dirty && CompanyId.invalid) || (CompanyId.pristine && submitted)}">
-								 		 <option value="">Select</option>
-										<option class='option' *ngFor='let company of CompanyList' [value]="company.CompanyId">{{company.Name}}</option>
-									 </select>
-									<!-- <span class="error_span"  *ngIf="(CompanyId.dirty && CompanyId.invalid) || (CompanyId.pristine && submitted)"> 
-										<span *ngIf="CompanyId.errors.required || (CompanyId.pristine && submitted)">Please select industry name </span>
-									</span> -->
-									 
-										
-								</div>
+							 
 										
 									
 										

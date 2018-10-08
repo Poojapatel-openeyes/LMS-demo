@@ -33,8 +33,7 @@ export class SettingService {
   }
   
 
-delete(del)
-  {
+  delete(del){  
 	let promise = new Promise((resolve, reject) => {		
     this.http.post(this.globals.baseAPIUrl + 'Setting/delete',del)
       .toPromise()

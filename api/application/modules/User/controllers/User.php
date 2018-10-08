@@ -58,16 +58,18 @@ class User extends CI_Controller
 							$LastName = $row->LastName;
 						}
 				
+						$config['protocol']=PROTOCOL;
+						$config['smtp_host']=SMTP_HOST;
+						$config['smtp_port']=SMTP_PORT;
+						$config['smtp_user']=$smtpEmail;
+						$config['smtp_pass']=$smtpPassword;
+
 						// $config['protocol']  = 'smtp';
 						// $config['smtp_host'] = 'ssl://smtp.googlemail.com';
 						// $config['smtp_port'] = '465';
 						// $config['smtp_user']='myopeneyes3937@gmail.com';
 						// $config['smtp_pass']='W3lc0m3@2018';
-						$config['protocol']='mail';
-						$config['smtp_host']='vps40446.inmotionhosting.com';
-						$config['smtp_port']='587';
-						$config['smtp_user']=$smtpEmail;
-						$config['smtp_pass']=$smtpPassword;
+
 						
 						$config['charset']='utf-8';
 						$config['newline']="\r\n";
@@ -93,7 +95,7 @@ class User extends CI_Controller
 							}
 							$body = str_replace("{ first_name }",$FirstName,$body);
 							$body = str_replace("{ last_name }",$LastName,$body);
-						//	$body = str_replace("{ role }",$RoleName,$body);
+							$body = str_replace("{ link }",''.BASE_URL.'/admin/login/',$body);
 							$this->email->from($smtpEmail, 'LMS Admin');
 							$this->email->to($rowTo[0]->EmailAddress);		
 							$this->email->subject($row->Subject);
@@ -124,7 +126,7 @@ class User extends CI_Controller
 							//    } 
 							$body = str_replace("{ first_name }",$FirstName,$body);
 							$body = str_replace("{ last_name }",$LastName,$body);
-							//$body = str_replace("{ role }",$RoleName,$body);
+							$body = str_replace("{ link }",''.BASE_URL.'/admin/login/',$body);
 							   $this->email->from($smtpEmail, 'LMS Admin');
 							   $this->email->to($rowTo[0]->EmailAddress);		
 							   $this->email->subject($row->Subject);
@@ -184,12 +186,19 @@ class User extends CI_Controller
 							
 						}
 				
-						$config['protocol']='mail';
-						$config['smtp_host']='vps40446.inmotionhosting.com';
-						$config['smtp_port']='587';
+						$config['protocol']=PROTOCOL;
+						$config['smtp_host']=SMTP_HOST;
+						$config['smtp_port']=SMTP_PORT;
 						$config['smtp_user']=$smtpEmail;
 						$config['smtp_pass']=$smtpPassword;
 						
+						// $config['protocol']  = 'smtp';
+						// $config['smtp_host'] = 'ssl://smtp.googlemail.com';
+						// $config['smtp_port'] = '465';
+						// $config['smtp_user']='myopeneyes3937@gmail.com';
+						// $config['smtp_pass']='W3lc0m3@2018';
+
+
 						$config['charset']='utf-8';
 						$config['newline']="\r\n";
 						$config['mailtype'] = 'html';							
@@ -215,7 +224,7 @@ class User extends CI_Controller
 							$body = str_replace("{ email_address }",$EmailAddress,$body);	
 							$body = str_replace("{ first_name }",$FirstName,$body);
 							$body = str_replace("{ last_name }",$LastName,$body);
-							// $body = str_replace("{ role }",$RoleId,$body);
+							$body = str_replace("{ link }",''.BASE_URL.'/login/',$body);
 							$this->email->from($smtpEmail, 'LMS Admin');
 							$this->email->to($rowTo[0]->EmailAddress);		
 							$this->email->subject($row->Subject);
@@ -224,7 +233,17 @@ class User extends CI_Controller
 							$this->email->message($body);
 							if($this->email->send())
 							{
+								$email_log = array(
+									'From' => trim($smtpEmail),
+									'Cc' => '',
+									'Bcc' => '',
+									'To' => trim($post_user['EmailAddress']),
+									'Subject' => trim($row->Subject),
+									'MessageBody' => trim($body),
+								);
 								
+								$res = $this->db->insert('tblemaillog',$email_log);
+
 								//echo json_encode("Success");
 							}else
 							{
@@ -246,7 +265,7 @@ class User extends CI_Controller
 							//    } 
 							$body = str_replace("{ first_name }",$FirstName,$body);
 							$body = str_replace("{ last_name }",$LastName,$body);
-							//$body = str_replace("{ role }",$RoleName,$body);
+							$body = str_replace("{ link }",''.BASE_URL.'/admin/login/',$body);
 							   $this->email->from($smtpEmail, 'LMS Admin');
 							   $this->email->to($rowTo[0]->EmailAddress);		
 							   $this->email->subject($row->Subject);
@@ -406,12 +425,7 @@ class User extends CI_Controller
 		
 	}
 
-	public function getAllUserList_tool()
-	{
-		$data=$this->User_model->getlist_user_tool();
-		echo json_encode($data);
-
-	}	
+		
 
 	public function getAllDefaultData()
 	{

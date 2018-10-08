@@ -18,15 +18,21 @@ class Setting_model extends CI_Model
 				'SettingName' => trim($post_Setting['SettingName']),
 				'Path' => trim($post_Setting['Path']),
 				"IsActive"=>$IsActive,
-				"CreatedBy" =>1,
-				"UpdatedBy" =>1
+				"CreatedBy" => trim($post_Setting['CreatedBy']),
+				"CreatedOn" => date('y-m-d H:i:s'),
 			
 			);
 			
 			$res = $this->db->insert('tblsetting',$Setting_data);
 			
 			if($res) {
-				
+				$log_data = array(
+					'UserId' => trim($post_Setting['CreatedBy']),
+					'Module' => 'Setting',
+					'Activity' =>'Add'
+	
+				);
+				$log = $this->db->insert('tblactivitylog',$log_data);				
 				return true;
 			} else {
 				return false;
@@ -88,7 +94,7 @@ class Setting_model extends CI_Model
 				'SettingName' => trim($post_Setting['SettingName']),
 				'Path' => trim($post_Setting['Path']),
 				"IsActive"=>$IsActive,
-				"UpdatedBy" =>1,
+				"UpdatedBy" =>trim($post_Setting['UpdatedBy']),
 				'UpdatedOn' => date('y-m-d H:i:s')
 			
 			);
@@ -97,6 +103,13 @@ class Setting_model extends CI_Model
 			$res = $this->db->update('tblsetting',$Setting_data);
 			
 			if($res) {
+				$log_data = array(
+					'UserId' => trim($post_Setting['UpdatedBy']),
+					'Module' => 'Setting',
+					'Activity' =>'Edit'
+	
+				);
+				$log = $this->db->insert('tblactivitylog',$log_data);
 				return true;
 			} else {
 				return false;
@@ -117,7 +130,7 @@ class Setting_model extends CI_Model
 			
 			if($res) {
 				$log_data = array(
-					'UserId' => trim($post_Setting['Userid']),
+					'UserId' =>  trim($post_Setting['id']),
 					'Module' => 'Setting',
 					'Activity' =>'Delete'
 

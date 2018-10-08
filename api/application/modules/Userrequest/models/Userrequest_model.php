@@ -3,188 +3,87 @@
 class Userrequest_model extends CI_Model
 {
 	
-	public function getStateList($country_id = NULL) {
-		
-		if($country_id) {
-			
-			$this->db->select('StateId,StateName');
-			$this->db->where('CountryId',$country_id);
-			$this->db->order_by('StateName','asc');
-			$this->db->where('IsActive=',1);
-			$result = $this->db->get('tblmststate');
-			
-			$res = array();
-			if($result->result()) {
-				$res = $result->result();
-			}
-			return $res;
-			
-		} else {
-			return false;
-		}
-	}
-
 
 	public function add_user($post_user)
 	{	
+		
 		if($post_user)
 		{
+
+		
 			$this->db->select('UserId');
 			$this->db->where('EmailAddress',trim($post_user['EmailAddress']));
 			$query=$this->db->get('tbluser');
-			if($query->num_rows() > 0){
-				return false;
-			}
-	
-			$user_data=array(
-			"UserId"=>trim($post_user['UserId']),
-			//"RoleId"=>trim($post_user['RoleId']),
-			"CompanyId"=>trim($post_user['CompanyId']),
-			"DepartmentId"=>trim($post_user['DepartmentId']),
-			//"CountryId"=>trim($post_user['CountryId']),
-			//"StateId"=>trim($post_user['StateId']),
-			"FirstName"=>trim($post_user['FirstName']),
-			"LastName"=>trim($post_user['LastName']),
-			// "Title"=>trim($post_user['Title']),
-			"EmailAddress"=>trim($post_user['EmailAddress']),
-			//"Password"=>trim($post_user['Password']),
-			//"Address1"=>trim($post_user['Address1']),
-			//"Address2"=>trim($post_user['Address2']),
-			"PhoneNumber"=>trim($post_user['PhoneNumber']),
-			//"PhoneNumberL"=>trim($post_user['PhoneNumberL']),
-			//"IsActive"=>$IsActive,
-			"CreatedBy"=>1,
-			"CreatedOn"=>date('y-m-d H:i:s')
-			//"UpdatedBy"=>1
-				
-			);	
-				
-				$res=$this->db->insert('tbluser',$user_data);
-				if($res)
-				{
-					$userId = $this->db->insert_id();
-					if($post_user['CompanyId']==0)
-					{
-					$user1_data=array(
-					//	"CompanyId" => $post_user['CompanyId'],
-						"Name" => $post_user['Name'],
-						"ParentId" => $post_user['ParentId'],
-						"EmailAddressCom" => $post_user['EmailAddressCom'],
-						"Address" => $post_user['Address'],
-						"IndustryId" => $post_user['IndustryId'],
-						"Website" => $post_user['Website'],
-						"PhoneNo" => $post_user['PhoneNo'],
-						"CreatedBy"=>1,
-						"CreatedOn"=>date('y-m-d H:i:s')
-						
-							
-						);	
-							
-							$res1=$this->db->insert('tblcompany',$user1_data);
-					
-
-							if($res1){
-								return $userId;
-							}
-							else
-							{
-								return false;
-							}
-						}
-						else
-						{
-							return $userId;
-						}
-				}
-				else
-				{
+			if($query->num_rows() > 0)
+			{
 					return false;
+			}
+			else
+			{
+				if($post_user['CompanyId']==0)
+				{
+	
+					$user1_data=array(
+				//	"CompanyId" => $post_user['CompanyId'],
+					"Name" => $post_user['Name'],
+					"ParentId" => $post_user['ParentId'],
+					"EmailAddressCom" => $post_user['EmailAddressCom'],
+					"Address" => $post_user['Address'],
+					"IndustryId" => $post_user['IndustryId'],
+					"Website" => $post_user['Website'],
+					"WorkingDays" => $post_user['WorkingDays'],
+					"PhoneNo" => $post_user['PhoneNo'],
+					"CreatedBy"=>1,
+					"CreatedOn"=>date('y-m-d H:i:s')
+					
+						
+					);	
+						
+						$res1=$this->db->insert('tblcompany',$user1_data);
+						$companyId = $this->db->insert_id();	
 				}
+				else 
+				{
+					$companyId = $post_user['CompanyId']; 
+				}
+				
+				
+									$user_data=array(
+									"UserId"=>trim($post_user['UserId']),
+									"CompanyId"=>$companyId,
+									"DepartmentId"=>trim($post_user['DepartmentId']),
+									"FirstName"=>trim($post_user['FirstName']),
+									"LastName"=>trim($post_user['LastName']),
+									"EmailAddress"=>trim($post_user['EmailAddress']),
+									"PhoneNumber"=>trim($post_user['PhoneNumber']),
+									"CreatedBy"=>1,
+									"CreatedOn"=>date('y-m-d H:i:s')
+										
+									);	
+										
+										$res=$this->db->insert('tbluser',$user_data);
+	
+										$userId = $this->db->insert_id();	
+	
+										if($res){
+											return $userId;
+										}
+										else
+										{
+											return false;
+										}
+
+			}
 		}
 		else
 		{
-				return false;
+			return false;
 		}
+			
+		
 	}
 
 
-
-
-	// public function add_user($post_user)
-	// {	
-	// 	if($post_user)
-	// 	{
-	
-	// 		$user_data=array(
-	// 		"UserId"=>trim($post_user['UserId']),
-	// 		//"RoleId"=>trim($post_user['RoleId']),
-	// 		"CompanyId"=>trim($post_user['CompanyId']),
-	// 		"DepartmentId"=>trim($post_user['DepartmentId']),
-	// 		//"CountryId"=>trim($post_user['CountryId']),
-	// 		//"StateId"=>trim($post_user['StateId']),
-	// 		"FirstName"=>trim($post_user['FirstName']),
-	// 		"LastName"=>trim($post_user['LastName']),
-	// 		// "Title"=>trim($post_user['Title']),
-	// 		"EmailAddress"=>trim($post_user['EmailAddress']),
-	// 		//"Password"=>trim($post_user['Password']),
-	// 		//"Address1"=>trim($post_user['Address1']),
-	// 		//"Address2"=>trim($post_user['Address2']),
-	// 		"PhoneNumber"=>trim($post_user['PhoneNumber']),
-	// 		//"PhoneNumberL"=>trim($post_user['PhoneNumberL']),
-	// 		//"IsActive"=>$IsActive,
-	// 		"CreatedBy"=>1,
-	// 		"CreatedOn"=>date('y-m-d H:i:s')
-	// 		//"UpdatedBy"=>1
-				
-	// 		);	
-				
-	// 			$res=$this->db->insert('tbluser',$user_data);
-	// 			if($res)
-	// 			{
-	// 				$userId = $this->db->insert_id();
-	// 				if($post_user['Name']!='')
-	// 				{
-	// 				$user1_data=array(
-	// 				//	"CompanyId" => $post_user['CompanyId'],
-	// 					"Name" => $post_user['Name'],
-	// 					"ParentId" => $post_user['ParentId'],
-	// 					"EmailAddress" => $post_user['EmailAddress'],
-	// 					"Address" => $post_user['Address'],
-	// 					"IndustryId" => $post_user['IndustryId'],
-	// 					"Website" => $post_user['Website'],
-	// 					"PhoneNo" => $post_user['PhoneNo'],
-	// 					"CreatedBy"=>1,
-	// 					"CreatedOn"=>date('y-m-d H:i:s')
-						
-							
-	// 					);	
-							
-	// 						$res1=$this->db->insert('tblcompany',$user1_data);
-					
-
-	// 						if($res1){
-	// 							return $userId;
-	// 						}
-	// 						else
-	// 						{
-	// 							return false;
-	// 						}
-	// 					}
-	// 					else
-	// 					{
-	// 						return $userId;
-	// 					}
-	// 			}
-	// 			else
-	// 			{
-	// 				return false;
-	// 			}
-	// 	}
-	// 	else
-	// 	{
-	// 			return false;
-	// 	}
-	// }
 
 	public function getlist_user()
 	{
@@ -280,20 +179,6 @@ class Userrequest_model extends CI_Model
 	}
 	
 	
-	//List state
-	function getlist_state()
-	{
-		$this->db->select('*');
-		$result=$this->db->get('tblmststate');
-		
-		$res=array();
-		if($result->result())
-		{
-			$res=$result->result();
-		}
-		return $res;
-	}
-	
 
 	function getlist_allcompany()
 	{
@@ -312,7 +197,9 @@ class Userrequest_model extends CI_Model
 	function getlist_industry()
 	{
 
-		$this->db->select('*');
+		$this->db->select('IndustryId,IndustryName');
+		$this->db->where('IsActive','1');
+		$this->db->order_by('IndustryName','asc');
 		$result=$this->db->get('tblmstindustry');
 		
 		$res=array();
@@ -327,7 +214,9 @@ class Userrequest_model extends CI_Model
 
 	function getlist_company()
 	{
-		$this->db->select('*');
+		$this->db->select('CompanyId,Name,');
+		$this->db->where('IsActive','1');
+		$this->db->order_by('Name','asc');
 		$result=$this->db->get('tblcompany');
 		
 		$res=array();
@@ -340,8 +229,9 @@ class Userrequest_model extends CI_Model
 
 	public function getlist_department()
 	{
-		$this->db->select('*');
-	//	$this->db->order_by('DepartmentName','asc');
+		$this->db->select('DepartmentId,DepartmentName');
+		$this->db->where('IsActive','1');
+		$this->db->order_by('DepartmentName','asc');
 		$result=$this->db->get('tblmstdepartment');
 		
 		$res=array();
@@ -352,25 +242,13 @@ class Userrequest_model extends CI_Model
 		return $res;
 	}
 
-	public function getlist_sales()
-	{
-		$this->db->select('UserId as Sales_Assign,RoleId,FirstName,LastName');
-		$this->db->where('RoleId',2);
-		$this->db->order_by('FirstName','asc');
-		$result=$this->db->get('tbluser');
-		
-		$res=array();
-		if($result->result())
-		{
-			$res=$result->result();
-		}
-		return $res;
-	}
+	
 
 	//list user role
 	public function getlist_userrole()
 	{
 		$this->db->select('RoleId,RoleName');
+
 		$result=$this->db->get('tblmstuserrole');
 		
 		$res=array();
@@ -381,17 +259,7 @@ class Userrequest_model extends CI_Model
 		return $res;
 	}
 	
-	public function getlist_country() {
 	
-		$this->db->select('*');
-		$result = $this->db->get('tblmstcountry');
-		$res = array();
-		if($result->result()) {
-			$res = $result->result();
-		}
-		return $res;
-		
-	}
 	
 	
 }

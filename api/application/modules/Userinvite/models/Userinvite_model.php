@@ -3,95 +3,81 @@
 class Userinvite_model extends CI_Model
 {
 	
-	
-
 	public function add_user($post_user)
 	{	
+		
 		if($post_user)
 		{
+	
 			$this->db->select('UserId');
 			$this->db->where('EmailAddress',trim($post_user['EmailAddress']));
 			$query=$this->db->get('tbluser');
-			if($query->num_rows() > 0){
-				return false;
-			}
-			
-			$user_data=array(
-			"UserId"=>trim($post_user['UserId']),
-			"RoleId"=>trim($post_user['RoleId']),
-			"DepartmentId"=>trim($post_user['DepartmentId']),
-			"CompanyId"=>trim($post_user['CompanyId']),
-			"EmailAddress"=>trim($post_user['EmailAddress']),
-			"Status"=>1,
-			"Code"=>trim($post_user['Code']),
-			"CreatedBy"=>1,
-			"CreatedOn"=>date('y-m-d H:i:s')
-			//"UpdatedBy"=>1
-				
-			);	
-				
-				$res=$this->db->insert('tbluser',$user_data);
-				if($res)
-				{
-					$userId = $this->db->insert_id();
-					if($post_user['CompanyId']==0)
-					{
-					$user1_data=array(
-					//	"CompanyId" => $post_user['CompanyId'],
-						"Name" => $post_user['Name'],
-						"ParentId" => $post_user['ParentId'],
-						"EmailAddressCom" => $post_user['EmailAddressCom'],
-						"Address" => $post_user['Address'],
-						"IndustryId" => $post_user['IndustryId'],
-						"Website" => $post_user['Website'],
-						"PhoneNo" => $post_user['PhoneNo'],
-						"CreatedBy"=>1,
-						"CreatedOn"=>date('y-m-d H:i:s')
-						
-							
-						);	
-							
-							$res1=$this->db->insert('tblcompany',$user1_data);
-					
-
-							if($res1){
-								return $userId;
-							}
-							else
-							{
-								return false;
-							}
-						}
-						else
-						{
-							return $userId;
-						}
-				}
-				else
-				{
+			if($query->num_rows() > 0)
+			{
 					return false;
+			}
+			else
+			{
+				if($post_user['CompanyId']==0)
+				{
+	
+					$user1_data=array(
+				//	"CompanyId" => $post_user['CompanyId'],
+					"Name" => $post_user['Name'],
+					"ParentId" => $post_user['ParentId'],
+					"EmailAddressCom" => $post_user['EmailAddressCom'],
+					"Address" => $post_user['Address'],
+					"IndustryId" => $post_user['IndustryId'],
+					"Website" => $post_user['Website'],
+					"WorkingDays" => $post_user['WorkingDays'],
+					"PhoneNo" => $post_user['PhoneNo'],
+					"CreatedBy"=>1,
+					"CreatedOn"=>date('y-m-d H:i:s')
+					
+						
+					);	
+						
+						$res1=$this->db->insert('tblcompany',$user1_data);
+						$companyId = $this->db->insert_id();	
 				}
+				else 
+				{
+					$companyId = $post_user['CompanyId']; 
+				}
+								
+									$user_data=array(
+										"UserId"=>trim($post_user['UserId']),
+										"RoleId"=>trim($post_user['RoleId']),
+										"DepartmentId"=>trim($post_user['DepartmentId']),
+										"CompanyId"=>$companyId,
+										"EmailAddress"=>trim($post_user['EmailAddress']),
+										"Status"=>1,
+										"Code"=>trim($post_user['Code']),
+										"CreatedBy"=>1,
+										"CreatedOn"=>date('y-m-d H:i:s')
+										//"UpdatedBy"=>1
+										
+									);	
+										
+										$res=$this->db->insert('tbluser',$user_data);
+	
+										$userId = $this->db->insert_id();	
+	
+										if($res){
+											return $userId;
+										}
+										else
+										{
+											return false;
+										}	
+			}
 		}
 		else
 		{
-				return false;
+			return false;
 		}
-	}
-
-
-	public function getlist_user()
-	{
-			$this->db->select('*');
-			$this->db->order_by('FirstName','asc');
-			$result = $this->db->get('tbluser');
-
-			$res=array();
-			if($result->result())
-			{
-				$res=$result->result();
-			}
-			return $res;
-	
+			
+		
 	}
 
 
@@ -173,52 +159,6 @@ class Userinvite_model extends CI_Model
 			}
 			
 
-
-	
-	//Edit UserList
-	 public function edit_user($post_user) 
-	 {
-		if($post_user) 
-		{
-			if($post_user['IsActive']==1)
-					{
-						$IsActive = true;
-					} else {
-						$IsActive = false;
-					}
-				$user_data = array(
-				"UserId"=>trim($post_user['UserId']),
-				"RoleId"=>trim($post_user['RoleId']),
-				"CompanyId"=>trim($post_user['CompanyId']),
-				"DepartmentId"=>trim($post_user['DepartmentId']),
-				"CountryId"=>trim($post_user['CountryId']),
-				"StateId"=>trim($post_user['StateId']),
-				"FirstName"=>trim($post_user['FirstName']),
-				"LastName"=>trim($post_user['LastName']),
-				 "Title"=>trim($post_user['Title']),
-				"EmailAddress"=>trim($post_user['EmailAddress']),
-				"Password"=>trim($post_user['Password']),
-				"Address1"=>trim($post_user['Address1']),
-				"Address2"=>trim($post_user['Address2']),
-				"PhoneNumber"=>trim($post_user['PhoneNumber']),
-				"PhoneNumberL"=>trim($post_user['PhoneNumberL']),
-				"IsActive"=>$IsActive,
-				"UpdatedBy"=>1,
-				"UpdatedOn"=> date('y-m-d H:i:s')
-			  );
-			
-		
-			$this->db->where('UserId',trim($post_user['UserId']));
-			$res = $this->db->update('tbluser',$user_data);
-		
-		}
-		else 
-		{
-			return false;
-		}	
-	
-	}
-
 	function getlist_allcompany()
 	{
 		
@@ -236,9 +176,11 @@ class Userinvite_model extends CI_Model
 	function getlist_industry()
 	{
 
-		$this->db->select('*');
+		$this->db->select('IndustryId,IndustryName');
+		$this->db->where('IsActive','1');
+		$this->db->order_by('IndustryName','asc');
 		$result=$this->db->get('tblmstindustry');
-		
+	
 		$res=array();
 		if($result->result())
 		{
@@ -250,7 +192,9 @@ class Userinvite_model extends CI_Model
 	
 	function getlist_company()
 	{
-		$this->db->select('*');
+		$this->db->select('CompanyId,Name,');
+		$this->db->where('IsActive','1');
+		$this->db->order_by('Name','asc');
 		$result=$this->db->get('tblcompany');
 		
 		$res=array();
@@ -263,8 +207,9 @@ class Userinvite_model extends CI_Model
 
 	public function getlist_department()
 	{
-		$this->db->select('*');
-	//	$this->db->order_by('DepartmentName','asc');
+		$this->db->select('DepartmentId,DepartmentName');
+		$this->db->where('IsActive','1');
+		$this->db->order_by('DepartmentName','asc');
 		$result=$this->db->get('tblmstdepartment');
 		
 		$res=array();
@@ -282,6 +227,8 @@ class Userinvite_model extends CI_Model
 		$this->db->select('RoleId,RoleName');
 		$this->db->where('RoleId!=','5');
 		$this->db->where('RoleId!=','1');
+		$this->db->where('IsActive','1');
+		$this->db->order_by('RoleName','asc');
 		$result=$this->db->get('tblmstuserrole');
 		
 		$res=array();

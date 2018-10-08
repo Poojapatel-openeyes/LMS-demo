@@ -38,20 +38,25 @@ class Department extends CI_Controller
 	}
 	
 	
-	//Delete UserList
-	public function delete($department_id = NULL) 
-	{
+	//Delete department
+	public function delete() {
+		$department_id = json_decode(trim(file_get_contents('php://input')), true);		
 
-		if(!empty($department_id)) {
-
-			$result = $this->Department_model->delete_department($department_id);			
-			if($result) {
-				echo json_encode("Delete successfully");	
-			}	
+		if ($department_id) {
+			if($department_id['id'] > 0){
+				$result = $this->Department_model->delete_department($department_id);
+				if($result) {
+					
+					echo json_encode("Delete successfully");
+				}
+				}
+		
 			
 		} 
 			
 	}
+
+	
 	
 	//get userId edit
 	public function getById($department_id=null)

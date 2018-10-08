@@ -3,7 +3,7 @@ import { Http } from '@angular/http';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { Globals } from '.././globals';
-declare var $;
+declare var $,swal: any;
 import { UserinviteService } from '../services/userinvite.service';
 
 @Component({
@@ -69,9 +69,16 @@ export class UserinvitelistComponent implements OnInit {
 			//this.inviteUserList[index].Status =0;
 			$('#Delete_Modal').modal('hide');
 			
-			this.globals.message = 'Revoked Successfully';
-			this.globals.type = 'success';
-			this.globals.msgflag = true;
+			// this.globals.message = 'Revoked Successfully';
+			// this.globals.type = 'success';
+			// this.globals.msgflag = true;
+			swal({
+				position: 'top-end',
+				type: 'success',
+				title: 'Revoked Successfully!',
+				showConfirmButton: false,
+				timer: 1500
+			})
 	
 		}, 
 		(error) => 
@@ -103,9 +110,16 @@ debugger
 			this.inviteUserList[index].Code ='';
 			$('#ReInvite_Modal').modal('hide');
 			
-			this.globals.message = 'User Re-Invited Successfully';
-			this.globals.type = 'success';
-			this.globals.msgflag = true;
+			// this.globals.message = 'User Re-Invited Successfully';
+			// this.globals.type = 'success';
+			// this.globals.msgflag = true;
+			swal({
+				position: 'top-end',
+				type: 'success',
+				title: 'User Re-Invited Successfully!',
+				showConfirmButton: false,
+				timer: 1500
+			})
 		}, 
 		(error) => 
 		{

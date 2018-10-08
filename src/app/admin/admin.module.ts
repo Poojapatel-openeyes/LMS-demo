@@ -63,6 +63,13 @@ import { EmailtemplateComponent } from './emailtemplate/emailtemplate.component'
 import { EmailtemplateListComponent } from './emailtemplate-list/emailtemplate-list.component';
 import { EmailtemplateService } from './services/emailtemplate.service';
 
+import { LoginlogComponent } from './loginlog/loginlog.component';
+import { EmaillogComponent } from './emaillog/emaillog.component';
+import { ActivitylogComponent } from './activitylog/activitylog.component';
+import { AuditlogService } from './services/auditlog.service';
+
+
+
 @NgModule({
   declarations: [
     AdminComponent,
@@ -92,7 +99,10 @@ import { EmailtemplateService } from './services/emailtemplate.service';
     UserrequestlistComponent,
     UserinvitelistComponent,
     EmailtemplateComponent,
-    EmailtemplateListComponent
+    EmailtemplateListComponent,
+    LoginlogComponent,
+    ActivitylogComponent,
+    EmaillogComponent
   ],
   imports: [
 	//BrowserModule,

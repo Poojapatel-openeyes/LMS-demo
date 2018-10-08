@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Globals } from '.././globals';
 import { forEach } from '@angular/router/src/utils/collection';
 import { EmailtemplateService } from '../services/emailtemplate.service';
-declare var $,unescape: any;
+declare var $,unescape: any,swal: any;
 
 import {HttpClient} from "@angular/common/http";
 
@@ -75,7 +75,8 @@ ngOnInit() {
 
 	deleteConfirm(Email)
 	{ 
-		this.EmailtemplateService.delete(Email.EmailId)
+		var del={'Userid':this.globals.authData.UserId,'id':Email.EmailId};
+		this.EmailtemplateService.delete(del)
 		.then((data) => 
 		{
 			let index = this.EmailList.indexOf(Email);
@@ -83,9 +84,16 @@ ngOnInit() {
 			if (index != -1) {
 				this.EmailList.splice(index, 1);
 			}	
-		this.globals.message = 'Email Template Deleted Successfully!';
-			this.globals.type = 'success';
-			this.globals.msgflag = true;
+		// this.globals.message = 'Email Template Deleted Successfully!';
+		// 	this.globals.type = 'success';
+		// 	this.globals.msgflag = true;
+		swal({
+			position: 'top-end',
+			type: 'success',
+			title: 'Email Template Deleted Successfully!',
+			showConfirmButton: false,
+			timer: 1500
+		})
 		}, 
 		(error) => 
 		{

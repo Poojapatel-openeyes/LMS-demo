@@ -30,10 +30,10 @@ add(emailEntity)
   }
   
 
-delete(Email_TemplateId)
+delete(del)
   {
 	let promise = new Promise((resolve, reject) => {		
-    this.http.get(this.globals.baseAPIUrl + 'Email_Template/delete/' + Email_TemplateId)
+    this.http.post(this.globals.baseAPIUrl + 'Email_Template/delete' ,del)
       .toPromise()
       .then(
         res => { // Success

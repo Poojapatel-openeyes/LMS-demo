@@ -32,15 +32,24 @@
                     <span class="required">*</span>Email Token</label>
                     <select class="form-control" #Token="ngModel" [(ngModel)]="emailEntity.Token" name="Token" [ngClass]="{red_border: (Token.dirty && Token.invalid) || (Token.pristine && submitted)}" required>
                       <option value="" ngSelected='emailEntity.Token==""'>Select</option>
-                      <option value="User Send Request" ngSelected="emailEntity.Token=='Registration'">User Send Request</option>
-                      <option value="User Invitation" ngSelected="emailEntity.Token=='Registration'">User Invitation</option>
-                      <option value="User Re-Invitation" ngSelected="emailEntity.Token=='Registration'">User Re-Invitation</option>
+                      <option value="Admin register to SuperAdmin" ngSelected="emailEntity.Token=='Admin register to SuperAdmin'">Admin To Superadmin</option>
+                      <option value="Change Password" ngSelected="emailEntity.Token=='Change Password'">Change Password</option>
+                      <option value="Forgot Password" ngSelected="emailEntity.Token=='Forgot Password'">Forgot Password</option>
                       <option value="Registration Complete" ngSelected="emailEntity.Token=='Registration'">Registration Complete</option>
                       <option value="Reset Password" ngSelected="emailEntity.Token=='Reset Password'">Reset Password</option>
-                      <option value="Forgot Password" ngSelected="emailEntity.Token=='Forgot Password'">Forgot Password</option>
-                      <option value="Change Password" ngSelected="emailEntity.Token=='Change Password'">Change Password</option>
                       <option value="User register to Admin" ngSelected="emailEntity.Token=='User register to Admin'">To Admin</option>
-                      <option value="Admin register to SuperAdmin" ngSelected="emailEntity.Token=='Admin register to SuperAdmin'">Admin To Superadmin</option>
+                      <option value="User Invitation" ngSelected="emailEntity.Token=='Registration'">User Invitation</option>
+                      <option value="User Re-Invitation" ngSelected="emailEntity.Token=='Registration'">User Re-Invitation</option>
+                      <option value="User Request to LMS" ngSelected="emailEntity.Token=='Registration'">User Request to LMS</option>
+                      <option value="User Send Request" ngSelected="emailEntity.Token=='Registration'">User Send Request</option>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
                       
                      
 

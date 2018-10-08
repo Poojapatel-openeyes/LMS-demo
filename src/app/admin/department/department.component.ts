@@ -4,7 +4,7 @@ import { Globals } from '.././globals';
 import { DepartmentService } from '../services/department.service';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
-
+declare var $,swal: any;
 @Component({
   selector: 'app-department',
   providers: [DepartmentService],
@@ -57,9 +57,12 @@ export class DepartmentComponent implements OnInit {
   addDepartment(departmentForm)
   {		
 		let id = this.route.snapshot.paramMap.get('id');
-		if(id){
+		if (id) {
+			this.departmentEntity.UpdatedBy = this.globals.authData.UserId;
 			this.submitted = false;
 		} else {
+			this.departmentEntity.CreatedBy = this.globals.authData.UserId;
+			this.departmentEntity.UpdatedBy = this.globals.authData.UserId;
 			this.departmentEntity.DepartmentId = 0;
 			this.submitted = true;
 		}
@@ -75,13 +78,27 @@ export class DepartmentComponent implements OnInit {
 				this.departmentEntity = {};
 				departmentForm.form.markAsPristine();
 				if (id) {
-					this.globals.message = 'Department Updated Successfully';
-					this.globals.type = 'success';
-					this.globals.msgflag = true;
+					// this.globals.message = 'Department Updated Successfully';
+					// this.globals.type = 'success';
+					// this.globals.msgflag = true;
+					swal({
+						position: 'top-end',
+						type: 'success',
+						title: 'Department Updated Successfully',
+						showConfirmButton: false,
+						timer: 1500
+					}) 
 				} else {
-					this.globals.message = 'Department Added Successfully';
-					this.globals.type = 'success';
-					this.globals.msgflag = true;
+					// this.globals.message = 'Department Added Successfully';
+					// this.globals.type = 'success';
+					// this.globals.msgflag = true;
+					swal({
+						position: 'top-end',
+						type: 'success',
+						title: 'Department Added Successfully',
+						showConfirmButton: false,
+						timer: 1500
+					}) 
 				}
 				this.router.navigate(['/admin/department/list']);
 			}, 

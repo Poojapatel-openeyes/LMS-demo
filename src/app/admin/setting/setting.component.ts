@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Globals } from '.././globals';
 import { ActivatedRoute } from '@angular/router';
 import { SettingService } from '../services/setting.service';
-
+declare var $,swal: any;
 @Component({
   selector: 'app-setting',
   providers: [SettingService],
@@ -60,6 +60,15 @@ export class SettingComponent implements OnInit {
 	addSetting(SettingForm) 
 	{		
 		  let id = this.route.snapshot.paramMap.get('id');
+		  if (id) {
+			this.SettingEntity.UpdatedBy = this.globals.authData.UserId;
+			this.submitted = false;
+		} else {
+			this.SettingEntity.CreatedBy = this.globals.authData.UserId;
+			this.SettingEntity.UpdatedBy = this.globals.authData.UserId;
+			this.SettingEntity.CompanyId = 0;
+			this.submitted = true;
+		}
 		  if(id){
 			  this.submitted = false;
 		  } else {
@@ -78,13 +87,27 @@ export class SettingComponent implements OnInit {
 				  this.SettingEntity = {};
 				  SettingForm.form.markAsPristine();
 				  if (id) {
-					this.globals.message = 'Setting Updated Successfully';
-					this.globals.type = 'success';
-					this.globals.msgflag = true;
+					// this.globals.message = 'Setting Updated Successfully';
+					// this.globals.type = 'success';
+					// this.globals.msgflag = true;
+					swal({
+						position: 'top-end',
+						type: 'success',
+						title: 'Setting Updated Successfully!',
+						showConfirmButton: false,
+						timer: 1500
+					})
 				} else {
-					this.globals.message = 'Setting Added Successfully';
-					this.globals.type = 'success';
-					this.globals.msgflag = true;
+					// this.globals.message = 'Setting Added Successfully';
+					// this.globals.type = 'success';
+					// this.globals.msgflag = true;
+					swal({
+						position: 'top-end',
+						type: 'success',
+						title: 'Setting Added Successfully!',
+						showConfirmButton: false,
+						timer: 1500
+					})
 				} 
 				  this.router.navigate(['/admin/setting/list']);
 			  }, 

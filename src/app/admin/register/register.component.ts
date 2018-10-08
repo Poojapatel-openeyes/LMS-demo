@@ -91,7 +91,15 @@ export class RegisterComponent implements OnInit {
 		debugger
 			
 			let id = this.route.snapshot.paramMap.get('id');
-			
+			if (id) {
+				this.userEntity.UpdatedBy = this.globals.authData.UserId;
+				this.submitted = false;
+			} else {
+				this.userEntity.CreatedBy = this.globals.authData.UserId;
+				this.userEntity.UpdatedBy = this.globals.authData.UserId;
+				this.userEntity.CompanyId = 0;
+				this.submitted = true;
+			}
 			if (userForm.valid) {
 				
 				//this.btn_disable = true;
@@ -109,7 +117,7 @@ export class RegisterComponent implements OnInit {
 									
 								});
 						}
-						alert('success');
+					//	alert('success');
 						this.btn_disable = false;
 						this.submitted = false;
 						this.userEntity = {};

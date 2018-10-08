@@ -75,17 +75,17 @@ class Userinvite extends CI_Controller {
 							$EmailAddress = $row->EmailAddress;
 						}
 				
+						$config['protocol']=PROTOCOL;
+						$config['smtp_host']=SMTP_HOST;
+						$config['smtp_port']=SMTP_PORT;
+						$config['smtp_user']=$smtpEmail;
+						$config['smtp_pass']=$smtpPassword;
+
 						// $config['protocol']  = 'smtp';
 						// $config['smtp_host'] = 'ssl://smtp.googlemail.com';
 						// $config['smtp_port'] = '465';
 						// $config['smtp_user']='myopeneyes3937@gmail.com';
 						// $config['smtp_pass']='W3lc0m3@2018';
-
-						$config['protocol']='mail';
-						$config['smtp_host']='vps40446.inmotionhosting.com';
-						$config['smtp_port']='587';
-						$config['smtp_user']=$smtpEmail;
-						$config['smtp_pass']=$smtpPassword;
 						
 						$config['charset']='utf-8';
 						$config['newline']="\r\n";
@@ -121,7 +121,18 @@ class Userinvite extends CI_Controller {
 							if($this->email->send())
 							{
 								
-								//echo json_encode("Success");
+								$email_log = array(
+									'From' => trim($smtpEmail),
+									'Cc' => '',
+									'Bcc' => '',
+									'To' => trim($post_user['EmailAddress']),
+									'Subject' => trim($row->Subject),
+									'MessageBody' => trim($body),
+								);
+								
+								$res = $this->db->insert('tblemaillog',$email_log);
+								
+							
 							}else
 							{
 								//echo json_encode("Fail");
@@ -146,7 +157,8 @@ class Userinvite extends CI_Controller {
 							   $this->email->message($body);
 							   if($this->email->send())
 							   {
-								  // echo 'success';
+								
+							
 							   }else
 							   {
 								   //echo 'fail';
@@ -245,16 +257,18 @@ class Userinvite extends CI_Controller {
 						}
 					
 				
+						$config['protocol']=PROTOCOL;
+						$config['smtp_host']=SMTP_HOST;
+						$config['smtp_port']=SMTP_PORT;
+						$config['smtp_user']=$smtpEmail;
+						$config['smtp_pass']=$smtpPassword;
+
+
 						// $config['protocol']  = 'smtp';
 						// $config['smtp_host'] = 'ssl://smtp.googlemail.com';
 						// $config['smtp_port'] = '465';
 						// $config['smtp_user']='myopeneyes3937@gmail.com';
 						// $config['smtp_pass']='W3lc0m3@2018';
-						$config['protocol']='mail';
-						$config['smtp_host']='vps40446.inmotionhosting.com';
-						$config['smtp_port']='587';
-						$config['smtp_user']=$smtpEmail;
-						$config['smtp_pass']=$smtpPassword;
 						
 						$config['charset']='utf-8';
 						$config['newline']="\r\n";
@@ -338,6 +352,28 @@ class Userinvite extends CI_Controller {
 			
 	}
 	
+
+
+
+	//Delete UserList
+	
+	// public function deleteUser() {
+	// 	$post_user = json_decode(trim(file_get_contents('php://input')), true);		
+	// 	if ($post_user)
+	// 	 {
+	// 		if($post_user['id'] > 0){
+	// 			$result = $this->Userinvite_model->delete_user($post_user);
+	// 			if($result) {	
+	// 				echo json_encode("Delete successfully");
+	// 				}
+	// 	 	}
+		
+			
+	// 	} 
+			
+	// }
+
+
 
 
 

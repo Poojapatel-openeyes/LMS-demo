@@ -19,7 +19,7 @@ class State_model extends CI_Model
 				"StateName"=>trim($post_state['StateName']),
 				"StateAbbreviation"=>trim($post_state['StateAbbreviation']),
 				"IsActive"=>$IsActive,
-				'CreatedBy' => 1,
+				'CreatedBy' => trim($post_state['CreatedBy']),
 				'CreatedOn' => date('y-m-d H:i:s')
 		
 				
@@ -86,7 +86,7 @@ class State_model extends CI_Model
 				"StateName"=>trim($post_state['StateName']),
 				"StateAbbreviation"=>trim($post_state['StateAbbreviation']),
 				"IsActive"=>$IsActive,
-				'UpdatedBy' =>1,
+				'UpdatedBy' => trim($post_state['UpdatedBy']),
 				'UpdatedOn' => date('y-m-d H:i:s')
 				
 			);
@@ -96,6 +96,13 @@ class State_model extends CI_Model
 			
 			if($res) 
 			{
+				$log_data = array(
+					'UserId' => trim($post_state['UpdatedBy']),
+					'Module' => 'State',
+					'Activity' =>'Edit'
+	
+				);
+				$log = $this->db->insert('tblactivitylog',$log_data);
 				return true;
 			} else
 				{
@@ -111,11 +118,9 @@ class State_model extends CI_Model
 	
 	function getlist_state()
 	{
-		$this->db->select('st.StateId,st.StateName,st.StateAbbreviation,st.IsActive,con.CountryName');
+		$this->db->select('st.StateId,st.StateName,st.StateAbbreviation,st.IsActive,con.CountryName,(SELECT COUNT(u.UserId) FROM tbluser as u WHERE u.StateId=st.StateId) as isdisabled');
 			$this->db->join('tblmstcountry con', 'con.CountryId = st.CountryId', 'left');
-		 // $this->db->select('st.StateId,st.StateName,st.StateAbbreviation,st.IsActive,con.CountryName');
-		 // $this->db->join('tblmstcountry con','st.StateId = st.StateId', 'left');
-		// $this->db->where('IsActive="1"');
+		
 		$result=$this->db->get('tblmststate st');
 		
 		$res=array();
@@ -136,6 +141,13 @@ class State_model extends CI_Model
 			$res = $this->db->delete('tblmststate');
 			
 			if($res) {
+				$log_data = array(
+					'UserId' => trim($post_state['Userid']),
+					'Module' => 'State',
+					'Activity' =>'Delete'
+	
+				);
+				$log = $this->db->insert('tblactivitylog',$log_data);
 				return true;
 			} else {
 				return false;
@@ -153,6 +165,7 @@ class State_model extends CI_Model
 	
 		$this->db->select('*');
 		$this->db->where('IsActive=1');
+		//$this->db->order_by('CountryName','asc');
 		$result = $this->db->get('tblmstcountry');
 		
 		$res = array();

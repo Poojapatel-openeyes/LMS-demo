@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Globals } from '.././globals';
 import { ActivatedRoute } from '@angular/router';
 import { SettingService } from '../services/setting.service';
-declare var $;
+declare var $,swal: any;
 
 @Component({
   selector: 'app-settinglist',
@@ -66,7 +66,7 @@ export class SettinglistComponent implements OnInit {
 
 	deleteConfirm(Setting)
 	{ 
-		var del={'Userid':this.globals,'id':Setting.SettingId};
+		var del={'Userid':this.globals.authData.UserId,'id':Setting.SettingId};
 		this.SettingService.delete(del)
 		.then((data) => 
 		{
@@ -74,11 +74,27 @@ export class SettinglistComponent implements OnInit {
 			$('#Delete_Modal').modal('hide');
 			if (index != -1) {
 				this.SettingList.splice(index, 1);
-				
-			}	
-			this.globals.message = 'Setting Deleted Successfully';
-			this.globals.type = 'success';
-			this.globals.msgflag = true;
+				//this.router.navigate(['/domain/list']);
+				// setTimeout(function(){
+				// 	$('#dataTables-example').dataTable( {
+				// 		"oLanguage": {
+				// 			"sLengthMenu": "_MENU_ Domains per Page",
+				// 			"sInfo": "Showing _START_ to _END_ of _TOTAL_ Domains",
+				// 			"sInfoFiltered": "(filtered from _MAX_ total Domains)"
+				// 		}
+				// 	});
+				// },3000); 
+			}		
+			// this.globals.message = 'Setting Deleted Successfully';
+			// this.globals.type = 'success';
+			// this.globals.msgflag = true;
+			swal({
+				position: 'top-end',
+				type: 'success',
+				title: 'Setting Deleted Successfully',
+				showConfirmButton: false,
+				timer: 1500
+			})
 	
 		
 		}, 

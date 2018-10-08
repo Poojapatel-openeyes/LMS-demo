@@ -19,13 +19,20 @@ class Userrole_model extends CI_Model
 				"RoleId"=>trim($post_userrole['RoleId']),
 				"RoleName"=>trim($post_userrole['RoleName']),
 				"IsActive"=>$IsActive,
-				"CreatedBy" =>1,
-				"UpdatedBy" =>1
+				"CreatedBy" =>trim($post_userrole['CreatedBy']),
+				"CreatedOn" =>date('y-m-d H:i:s')
 			);	
 				
 				$res=$this->db->insert('tblmstuserrole',$userrole_data);
 				if($res)
 				{
+					$log_data = array(
+						'UserId' =>trim($post_userrole['CreatedBy']),
+						'Module' => 'Userrole',
+						'Activity' =>'Add'
+		
+					);
+					$log = $this->db->insert('tblactivitylog',$log_data);
 					return true;
 				}
 				else
@@ -42,9 +49,9 @@ class Userrole_model extends CI_Model
 	//list project status
 	public function getlist_userrole()
 	{
-		$this->db->select('RoleId,RoleName,IsActive');
-	//	$this->db->order_by('RoleName','asc');
-		$result=$this->db->get('tblmstuserrole');
+		$this->db->select('usr.RoleId,usr.RoleName,usr.IsActive,(SELECT COUNT(u.UserId) FROM tbluser as u WHERE u.RoleId=usr.RoleId) as isdisabled');
+		$this->db->order_by('RoleName','asc');
+		$result=$this->db->get('tblmstuserrole usr');
 		
 		$res=array();
 		if($result->result())
@@ -62,10 +69,17 @@ class Userrole_model extends CI_Model
 		if($role_id) 
 		{
 			
-			$this->db->where('RoleId',$role_id);
+			$this->db->where('RoleId',$role_id['id']);
 			$res = $this->db->delete('tblmstuserrole');
 			
 			if($res) {
+				$log_data = array(
+					'UserId' => trim($role_id['Userid']),
+					'Module' => 'Userrole',
+					'Activity' =>'Delete'
+	
+				);
+				$log = $this->db->insert('tblactivitylog',$log_data);
 				return true;
 			} else {
 				return false;
@@ -93,7 +107,7 @@ class Userrole_model extends CI_Model
 				"RoleId"=>$post_userrole['RoleId'],
 				"RoleName"=>$post_userrole['RoleName'],
 				"IsActive"=>$IsActive,
-				"CreatedBy" =>1,
+				"UpdatedBy" =>trim($post_userrole['UpdatedBy']),
 				'UpdatedOn' => date('y-m-d H:i:s')
 			);
 			
@@ -102,6 +116,13 @@ class Userrole_model extends CI_Model
 			
 			if($res) 
 			{
+				$log_data = array(
+					'UserId' => trim($post_userrole['UpdatedBy']),
+					'Module' => 'Userrole',
+					'Activity' =>'Edit'
+	
+				);
+				$log = $this->db->insert('tblactivitylog',$log_data);
 				return true;
 			} else
 				{

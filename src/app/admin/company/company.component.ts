@@ -6,7 +6,8 @@ import { ActivatedRoute } from '@angular/router';
 import { CompanyService } from '../services/company.service';
 import { debug } from 'util';
 
-declare var $: any;
+declare var $,swal: any;
+
 @Component({
 	selector: 'app-company',
 	providers: [CompanyService],
@@ -33,7 +34,7 @@ export class CompanyComponent implements OnInit {
 	//.map(res => res.json())
 	.then((data) => {
 		this.CompanyList = data;
-		console.log(data);
+	//	console.log(data);
 	},
 	(error) => {
 		//alert('error');
@@ -84,7 +85,15 @@ export class CompanyComponent implements OnInit {
 	addCompany(companyForm) {
 		
 		let id = this.route.snapshot.paramMap.get('id');
-	
+		if (id) {
+			this.companyEntity.UpdatedBy = this.globals.authData.UserId;
+			this.submitted = false;
+		} else {
+			this.companyEntity.CreatedBy = this.globals.authData.UserId;
+			this.companyEntity.UpdatedBy = this.globals.authData.UserId;
+			this.companyEntity.CompanyId = 0;
+			this.submitted = true;
+		}
 		if (companyForm.valid) {
 			this.btn_disable = true;
 			this.CompanyService.add(this.companyEntity)
@@ -96,13 +105,24 @@ export class CompanyComponent implements OnInit {
 					this.companyEntity = {};
 					companyForm.form.markAsPristine();
 					if (id) {
-						this.globals.message = 'Company Updated Successfully';
-						this.globals.type = 'success';
-						this.globals.msgflag = true;
+
+						swal({
+							position: 'top-end',
+							type: 'success',
+							title: 'Company Updated Successfully',
+							showConfirmButton: false,
+							timer: 1500
+						})
+						
 					} else {
-						this.globals.message = 'Company Added Successfully';
-						this.globals.type = 'success';
-						this.globals.msgflag = true;
+					
+						swal({
+							position: 'top-end',
+							type: 'success',
+							title: 'Company Added Successfully',
+							showConfirmButton: false,
+							timer: 1500
+						})
 					}
 
 				

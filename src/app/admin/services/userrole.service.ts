@@ -46,9 +46,9 @@ export class UserroleService {
   }
   
   
-  deleteUserrole(roleId){  
+  delete(del){  
 	let promise = new Promise((resolve, reject) => {
-    this.http.get(this.globals.baseAPIUrl + 'Userrole/delete/' + roleId)
+    this.http.post(this.globals.baseAPIUrl + 'Userrole/delete' , del)
       .toPromise()
       .then(
         res => { // Success

@@ -154,20 +154,31 @@
                                     
                                     <div class="clearfix"></div>
                                     
-                                    <div class="form-group col-md-6">
+                                    <!-- <div class="form-group col-md-6">
                                             <label>Parent Branch</label>
                                               <select class='select-option' required class="form-control" #ParentId="ngModel" 
                                               [(ngModel)]="inviteUserEntity.ParentId" name="ParentId" [ngClass]="{red_border: (ParentId.dirty && ParentId.invalid) || (ParentId.pristine && submitted)}">
                                                   <option value="">Select</option>
                                                 <option class='option' *ngFor='let company of parentCompanyList' [value]="company.ParentId">{{company.Name}}</option>
-                                             </select> 
+                                             </select>  -->
                                             <!-- <span class="error_span"  *ngIf="(ParentId.dirty && ParentId.invalid) || (ParentId.pristine && submitted)"> 
                                                 <span *ngIf="ParentId.errors.required || (ParentId.pristine && submitted)">Please select industry name </span>
                                             </span> -->
                                              
                                                 
-                                        </div>
+                                        <!-- </div> -->
+                                        <div class="form-group col-md-6">
+                                                <label><span class="required">*</span>Working Days</label>
+                                                <input type="text" class="form-control" #WorkingDays="ngModel" name="WorkingDays" 
+                                                    [(ngModel)]="inviteUserEntity.WorkingDays" [ngClass]="{red_border: (WorkingDays.dirty && WorkingDays.invalid) || (WorkingDays.pristine && submitted)}" pattern="[a-zA-Z',.$\ ]{2,100}" maxlength="200"  required/>
+                                                    <span class="error_span"  *ngIf="(WorkingDays.dirty && WorkingDays.invalid) || (WorkingDays.pristine && submitted)"> 
+                                                    <span *ngIf="WorkingDays.errors.required || (WorkingDays.pristine && submitted)">Please enter working days</span>
+                                                    <span *ngIf="WorkingDays.errors && WorkingDays.errors.pattern">Please enter working days</span>
+                                                </span>
+                                                    
+                                            </div>
 
+                            
                             
                                     
                                                                             

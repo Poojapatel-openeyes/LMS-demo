@@ -4,6 +4,7 @@ import { Globals } from '.././globals';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+declare var $,swal: any;
 
 @Component({
   selector: 'app-login',
@@ -38,9 +39,16 @@ export class LoginComponent implements OnInit {
           if(data='Code duplicate')
           {
             //alert('success');
-            this.globals.message = 'User Login Successfully';
-            this.globals.type = 'success';
-            this.globals.msgflag = true;
+            // this.globals.message = 'User Login Successfully';
+            // this.globals.type = 'success';
+            // this.globals.msgflag = true;
+            swal({
+              position: 'top-end',
+              type: 'success',
+              title: 'User Login Successfully!',
+              showConfirmButton: false,
+              timer: 1500
+            })
           }else
             {
           //alert('error');
@@ -56,9 +64,16 @@ export class LoginComponent implements OnInit {
         }, 
         (error) => 
         { 
-              this.globals.message = 'Invalid Email Address or Password';
-              this.globals.type = 'danger'; 
-              this.globals.msgflag = true;
+              // this.globals.message = 'Invalid Email Address or Password';
+              // this.globals.type = 'danger'; 
+              // this.globals.msgflag = true;
+              swal({
+                position: 'top-end',
+                type: 'danger',
+                title: 'Invalid Email Address or Password!',
+                showConfirmButton: false,
+                timer: 1500
+              })
               this.btn_disable = false;
               this.submitted = false;
   

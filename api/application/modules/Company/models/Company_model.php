@@ -2,32 +2,7 @@
 
 class Company_model extends CI_Model
 {
-
-	public function getlist_user()
-	{
-		// $this->db->select('us.UserId,us.RoleId,us.CompanyId,us.FirstName,us.LastName,us.Title,us.EmailAddress,us.Password,
-		// us.CountryId,us.StateId,us.City,us.ZipCode,us.PhoneNumber,us.IsActive,cp.Name,cp.Name,usms.RoleName');
-		// $this->db->join('tblcompany cp','cp.CompanyId = us.CompanyId', 'left');
-		// $this->db->join('tblmstuserrole usms','usms.RoleId = us.RoleId', 'left');
-		// $this->db->where('usms.RoleName!=','IT');
-		$this->db->select('ca.UserId,u.FirstName,u.LastName,cmp.Name,COUNT(ca.UserId) as total');
-		$this->db->group_by('ca.UserId');
-		//$this->db->join('tblmstteamsize ts','ts.TeamSizeId = ca.TeamSizeId', 'left');
-		$this->db->join('tbluser u','u.UserId = ca.UserId', 'left');
-		$this->db->join('tblcompany cmp','cmp.CompanyId = u.CompanyId', 'left');
-		$this->db->order_by('CompanyId','asc');
-		$this->db->where('ca.EndTime!=','NULL');
-		$result = $this->db->get('tblcandidateassessment as ca');
-		
-		$res=array();
-		if($result->result())
-		{
-			$res=$result->result();
-		}
-		return $res;
-	}
-		
-	
+			
 	public function add_company($post_company)
 	{	if($post_company['IsActive']==1)
 					{
@@ -45,15 +20,23 @@ class Company_model extends CI_Model
 				'Address' => $post_company['Address'],
 				'IndustryId' => $post_company['IndustryId'],
 				'Website' => $post_company['Website'],
+				'WorkingDays' => $post_company['WorkingDays'],
 				'PhoneNo' => $post_company['PhoneNo'],
 				'IsActive' => $IsActive,
-				'UpdatedOn' => date('y-m-d H:i:s')
-				
+				'CreatedBy' => $post_company['CreatedBy'],
+				'CreatedOn' => date('y-m-d H:i:s')
 			);
 				
 				$res=$this->db->insert('tblcompany',$company_data);
 				if($res)
-				{
+				{	
+					$log_data = array(
+						'UserId' => trim($post_company['CreatedBy']),
+						'Module' => 'Company',
+						'Activity' =>'Add'
+		
+					);
+					$log = $this->db->insert('tblactivitylog',$log_data);
 					return true;
 				}
 				else
@@ -71,10 +54,8 @@ class Company_model extends CI_Model
 	{
 	  if($company_id)
 	  {
-		// $this->db->select('area.CAreaId,area.DomainId,area.Name,area.Description,area.KeyConcepts,area.IsActive,(SELECT COUNT(mk.KSAId) FROM tblmstksa as mk WHERE area.CAreaId=mk.CAreaId) as isdisabled');
-		// $this->db->where('CAreaId',$area_id);
-		// $result = $this->db->get('tblmstcompetencyarea area');
-		 $this->db->select('cp.CompanyId,cp.Name,cp.EmailAddressCom,cp.Address,cp.IndustryId,cp.Website,cp.PhoneNo,cp.IsActive,(SELECT COUNT(u.UserId) FROM tbluser as u WHERE u.CompanyId=cp.CompanyId) as isdisabled');
+
+		 $this->db->select('cp.CompanyId,cp.Name,cp.EmailAddressCom,cp.Address,cp.IndustryId,cp.Website,cp.WorkingDays,cp.PhoneNo,cp.IsActive,(SELECT COUNT(u.UserId) FROM tbluser as u WHERE u.CompanyId=cp.CompanyId) as isdisabled');
 		 $this->db->order_by('cp.Name','asc');
 		 $this->db->where('CompanyId',$company_id);
 		 $result=$this->db->get('tblcompany cp');
@@ -111,9 +92,10 @@ class Company_model extends CI_Model
 				'Address' => $post_company['Address'],
 				'IndustryId' => $post_company['IndustryId'],
 				'Website' => $post_company['Website'],
+				'WorkingDays' => $post_company['WorkingDays'],
 				'PhoneNo' => $post_company['PhoneNo'],
 				'IsActive' => $IsActive,
-				'UpdatedBy' =>1,
+				'UpdatedBy' =>trim($post_company['UpdatedBy']),
 				'UpdatedOn' => date('y-m-d H:i:s')
 				
 			);
@@ -123,6 +105,13 @@ class Company_model extends CI_Model
 			
 			if($res) 
 			{	
+				$log_data = array(
+					'UserId' =>trim($post_company['UpdatedBy']),
+					'Module' => 'Company',
+					'Activity' =>'Update'
+	
+				);
+				$log = $this->db->insert('tblactivitylog',$log_data);
 				return true;
 			} else
 				{
@@ -143,8 +132,8 @@ class Company_model extends CI_Model
 		// $this->db->join('tblmstindustry in', 'cp.IndustryId = in.IndustryId', 'left');
 		// $result = $this->db->get('tblcompany cp');
 
-		
-		 $this->db->select('cp.CompanyId,cp.ParentId,cp.Name,cp.EmailAddressCom,cp.Address,cp.IndustryId,cp.Website,cp.PhoneNo,cp.IsActive,in.IndustryName');
+		$this->db->select('cp.CompanyId,cp.Name,cp.EmailAddressCom,cp.Address,cp.IndustryId,cp.Website,cp.WorkingDays,cp.PhoneNo,cp.IsActive,in.IndustryName,(SELECT COUNT(u.UserId) FROM tbluser as u WHERE u.CompanyId=cp.CompanyId) as isdisabled');
+		 //$this->db->select('cp.CompanyId,cp.ParentId,cp.Name,cp.EmailAddressCom,cp.Address,cp.IndustryId,cp.Website,cp.PhoneNo,cp.IsActive,in.IndustryName');
 		 $this->db->join('tblmstindustry in', 'cp.IndustryId = in.IndustryId', 'left');
 		$result = $this->db->get('tblcompany cp');
 		$res=array();
@@ -184,7 +173,7 @@ class Company_model extends CI_Model
 			
 			if($res) {
 				$log_data = array(
-					'UserId' => trim($post_company['Userid']),
+					'UserId' =>trim($post_company['Userid']),
 					'Module' => 'Company',
 					'Activity' =>'Delete'
 	
@@ -207,7 +196,7 @@ class Company_model extends CI_Model
 	public function getlist_Industry() {
 	
 		$this->db->select('IndustryId,IndustryName');
-		//$this->db->where('IsActive="1"');
+		$this->db->where('IsActive="1"');
 		$this->db->order_by('IndustryName','asc');
 		$result = $this->db->get('tblmstindustry');
 		

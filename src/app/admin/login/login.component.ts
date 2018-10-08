@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { Globals } from '../globals';
-declare var $: any;
+declare var $,swal: any;
 
 @Component({
   selector: 'app-login',
@@ -46,9 +46,17 @@ export class LoginComponent implements OnInit {
 				this.loginEntity = {};
 				loginForm.form.markAsPristine(); 
 				if(data=='access denite'){
-					this.globals.isLoading = false;
-					this.router.navigate(['/admin/access-denied']);
+				//	this.globals.isLoading = false;
+				//	this.router.navigate(['/admin/access-denied']);
 				} else {
+
+					swal({
+						position: 'top-end',
+						type: 'success',
+						title: 'You are login success!',
+						showConfirmButton: false,
+						timer: 1500
+					})
 					window.location.href = '/admin';
 				}								
 			}, 

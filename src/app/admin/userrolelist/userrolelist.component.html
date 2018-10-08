@@ -46,8 +46,20 @@
 											<td *ngIf="userrole.IsActive=='0'">No</td>
 												
 												
-                    <td><button class="btn btn-default btn-rounded btn-sm" routerLink="/admin/userrole/edit/{{userrole.RoleId}}" title="Edit"><span class="fa fa-pencil"></span></button>
-                      <button data-type="Record" class="btn btn-danger btn-rounded btn-sm delete-user-row-with-ajax-button" title="Delete"(click)="deleteUserrole(userrole)"><span class="fa fa-times"></span></button></td>
+                    <td>
+                        <div class="inline_delbtn tooltip_inline" title="Edit" data-toggle="tooltip" data-placement="bottom"> 
+                            <button   class="btn btn-default btn-rounded btn-sm" routerLink="/admin/userrole/edit/{{userrole.RoleId}}"><span class="fa fa-pencil"></span></button>
+                          </div> 
+
+                          <div class="inline_delbtn tooltip_inline"  data-toggle="tooltip" data-placement="bottom" title="Userrole can't be deleted as it is already assigned to an active User's profile" > 
+                              <button *ngIf="userrole.isdisabled>0"  [disabled]="userrole.isdisabled>0" data-type="Record" class="btn btn-danger btn-rounded btn-sm delete-user-row-with-ajax-button"><span class="fa fa-times"></span></button>
+                            </div>  
+                            
+                            <div class="inline_delbtn tooltip_inline"  data-toggle="tooltip" data-placement="bottom"  title="Delete">  
+                              <button *ngIf="userrole.isdisabled==0"    data-type="Record" class="btn btn-danger btn-rounded btn-sm delete-user-row-with-ajax-button" (click)="deleteUserrole(userrole)"><span class="fa fa-times"></span></button>
+                            </div>
+                     
+                     
                     
                   </tr>
                  

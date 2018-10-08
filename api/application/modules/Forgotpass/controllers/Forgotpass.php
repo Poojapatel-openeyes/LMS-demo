@@ -58,16 +58,13 @@ class Forgotpass extends CI_Controller
 						}
 
 					 
-					//  $config['protocol']  = 'smtp';
-					//  $config['smtp_host'] = 'ssl://smtp.googlemail.com';
-					//  $config['smtp_port'] = '465';
-					//  $config['smtp_user']='myopeneyes3937@gmail.com';
-					//  $config['smtp_pass']='W3lc0m3@2018';
-					$config['protocol']='mail';
-					$config['smtp_host']='vps40446.inmotionhosting.com';
-					$config['smtp_port']='587';
+					$config['protocol']=PROTOCOL;
+					$config['smtp_host']=SMTP_HOST;
+					$config['smtp_port']=SMTP_PORT;
 					$config['smtp_user']=$smtpEmail;
 					$config['smtp_pass']=$smtpPassword;
+
+			
 					 
 					 $config['charset']='utf-8';
 					 $config['newline']="\r\n";
@@ -108,7 +105,16 @@ class Forgotpass extends CI_Controller
 						 $this->email->message($body);
 						 if($this->email->send())
 						 {
-							 
+							$email_log = array(
+								'From' => trim($smtpEmail),
+								'Cc' => '',
+								'Bcc' => '',
+								'To' => trim($post_pass['EmailAddress']),
+								'Subject' => trim($row->Subject),
+								'MessageBody' => trim($body),
+							);
+							
+							$res = $this->db->insert('tblemaillog',$email_log);
 							 //echo json_encode("Success");
 						 }else
 						 {

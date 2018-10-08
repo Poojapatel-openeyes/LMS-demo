@@ -9,7 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { UserrequestService } from '../services/userrequest.service';
-declare var $;
+declare var $,swal: any;
 
 @Component({
   selector: 'app-userrequestlist',

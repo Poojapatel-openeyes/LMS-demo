@@ -48,9 +48,12 @@
                           <i class="fa fa-pencil" aria-hidden="true"></i></button>
                       </div>
 
+                      <div class="inline_delbtn tooltip_inline"  data-toggle="tooltip" data-placement="bottom" title="Industry can't be deleted as it is already assigned to an active Companie's profile" > 
+                          <button *ngIf="Industry.isdisabled>0"  [disabled]="Industry.isdisabled>0" data-type="Record" class="btn btn-danger btn-rounded btn-sm delete-user-row-with-ajax-button"><span class="fa fa-times"></span></button>
+                        </div> 
                       
                       <div class="inline_delbtn tooltip_inline"  data-toggle="tooltip" data-placement="bottom"   title="Delete" > 
-                          <button  type="button" class="btn btn-danger btn-rounded btn-sm delete-user-row-with-ajax-button" 
+                          <button *ngIf="Industry.isdisabled==0" type="button" class="btn btn-danger btn-rounded btn-sm delete-user-row-with-ajax-button" 
                           (click)="deleteIndustry(Industry)">
                           <i class="fa fa-times" aria-hidden="true"></i></button>
                       </div>

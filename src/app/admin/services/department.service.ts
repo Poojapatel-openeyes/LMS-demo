@@ -47,9 +47,9 @@ export class DepartmentService {
   }
   
   
-  deleteDepartment(departmentId){  
+  deleteDepartment(del){  
 	let promise = new Promise((resolve, reject) => {
-    this.http.get(this.globals.baseAPIUrl + 'Department/delete/' + departmentId)
+    this.http.post(this.globals.baseAPIUrl + 'Department/delete' , del)
       .toPromise()
       .then(
         res => { // Success

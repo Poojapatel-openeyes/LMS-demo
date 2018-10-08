@@ -5,7 +5,7 @@ import { EmailtemplateService } from '../services/emailtemplate.service';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 declare var $: any;
-declare var CKEDITOR: any;
+declare var CKEDITOR: any,swal: any;
 //import { CommonService } from '../services/common.service';
 
 @Component({
@@ -141,13 +141,27 @@ export class EmailtemplateComponent implements OnInit {
 						this.emailEntity = {};
 						EmailForm.form.markAsPristine();
 						if (id) {
-							this.globals.message = 'Data Updated Successfully!';
-							this.globals.type = 'success';
-							this.globals.msgflag = true;
+							// this.globals.message = 'Data Updated Successfully!';
+							// this.globals.type = 'success';
+							// this.globals.msgflag = true;
+							swal({
+								position: 'top-end',
+								type: 'success',
+								title: 'Data Updated Successfully!',
+								showConfirmButton: false,
+								timer: 1500
+							})
 						} else {
-							this.globals.message = 'Data Added Successfully!';
-							this.globals.type = 'success';
-							this.globals.msgflag = true;
+							// this.globals.message = 'Data Added Successfully!';
+							// this.globals.type = 'success';
+							// this.globals.msgflag = true;
+							swal({
+								position: 'top-end',
+								type: 'success',
+								title: 'Data Added Successfully!',
+								showConfirmButton: false,
+								timer: 1500
+							})
 						}
 						this.router.navigate(['/admin/emailtemplate/list']);
 					}

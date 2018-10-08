@@ -53,28 +53,33 @@ const routes: Routes = [
 			component: ClientComponent,
 			children: [
 				
-				 { path: 'dashboard', component : DashboardComponent },
+				{ path : '', component : HomeComponent ,canActivate : [AuthGuard] },
+			//	{ path : '', redirectTo: 'home', pathMatch:'full'},
 
-				{ path : 'home', component : HomeComponent },
+				//{ path: '**', redirectTo : 'dashboard' },
 
-				{ path : 'login', component : LoginComponent},
+				{ path: 'dashboard', component : DashboardComponent,canActivate : [AuthGuard] },
 
-				{ path : 'openregister/add', component : OpenregisterComponent},
+				{ path : 'home', component : HomeComponent, canActivate : [AuthGuard] },
+
+				{ path : 'login', component : LoginComponent ,canActivate : [AuthGuard]},
+
+				{ path : 'openregister/add', component : OpenregisterComponent ,canActivate : [AuthGuard]},
 
 				// { path : 'user/add', component : UserComponent  },
-				{ path : 'user/edit/:id', component : UserComponent },
+				{ path : 'user/edit/:id', component : UserComponent,canActivate : [AuthGuard] },
 
-				{ path : 'userprofile/edit/:id', component : UserprofileComponent },
+				{ path : 'userprofile/edit/:id', component : UserprofileComponent ,canActivate : [AuthGuard]},
 
-				{ path : 'userrequest/add', component : UserrequestComponent  },
+				{ path : 'userrequest/add', component : UserrequestComponent  ,canActivate : [AuthGuard]},
 			
-				{ path : 'invitation/add', component : InvitationComponent },
+				{ path : 'invitation/add', component : InvitationComponent ,canActivate : [AuthGuard]},
 
-				{ path : 'forgotpassword', component : ForgotpasswordComponent  },
+				{ path : 'forgotpassword', component : ForgotpasswordComponent  ,canActivate : [AuthGuard]},
 
-				{ path : 'resetpass/:id', component : ResetpassComponent},
+				{ path : 'resetpass/:id', component : ResetpassComponent ,canActivate : [AuthGuard]},
 
-				{ path : 'changepass', component : ChangepassComponent },
+				{ path : 'changepass', component : ChangepassComponent,canActivate : [AuthGuard] },
 				
 			]
 	}

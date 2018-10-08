@@ -5,7 +5,7 @@ import { CountryService } from '../services/country.service';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 
-declare var $;
+declare var $,swal: any;
 
 @Component({
 	selector: 'app-country',
@@ -60,6 +60,15 @@ export class CountryComponent implements OnInit {
 	addCountry(CountryForm) 
 	{		
 		  let id = this.route.snapshot.paramMap.get('id');
+		  if (id) {
+			this.CountryEntity.UpdatedBy = this.globals.authData.UserId;
+			this.submitted = false;
+		} else {
+			this.CountryEntity.CreatedBy = this.globals.authData.UserId;
+			this.CountryEntity.UpdatedBy = this.globals.authData.UserId;
+			this.CountryEntity.CompanyId = 0;
+			this.submitted = true;
+		}
 		  if(id){
 			  this.submitted = false;
 		  } else {
@@ -71,20 +80,30 @@ export class CountryComponent implements OnInit {
 			  this.CountryService.add(this.CountryEntity)
 			  .then((data) => 
 			  {
-				  alert('success');
+				 // alert('success');
 				  //this.aa=true;
 				  this.btn_disable = false;
 				  this.submitted = false;
 				  this.CountryEntity = {};
 				  CountryForm.form.markAsPristine();
 				  if (id) {
-					  this.globals.message = 'Country Updated Successfully';
-					  this.globals.type = 'success';
-					  this.globals.msgflag = true;
+					
+					swal({
+						position: 'top-end',
+						type: 'success',
+						title: 'Country Updated Successfully',
+						showConfirmButton: false,
+						timer: 1500
+					}) 
 				  } else {
-					  this.globals.message = 'Country Added Successfully';
-					  this.globals.type = 'success';
-					  this.globals.msgflag = true;
+					
+					swal({
+						position: 'top-end',
+						type: 'success',
+						title: 'Country Added Successfully',
+						showConfirmButton: false,
+						timer: 1500
+					}) 
 				  }
 
 				  this.router.navigate(['/admin/country/list']);

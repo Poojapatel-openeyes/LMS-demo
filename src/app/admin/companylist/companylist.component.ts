@@ -9,7 +9,7 @@ import { CompanyService } from '../services/company.service';
 
 import { Globals } from '../globals';
 
-declare var $;
+declare var $,swal: any;
 
 
 @Component({
@@ -73,7 +73,7 @@ export class CompanylistComponent implements OnInit {
 
 	deleteConfirm(company)
 	{ 	
-		var del={'Userid':this.globals,'id':company.CompanyId};
+		var del={'Userid':this.globals.authData.UserId,'id':company.CompanyId};
 		this.CompanyService.deleteCompany(del)
 		.then((data) => 
 		{
@@ -81,9 +81,16 @@ export class CompanylistComponent implements OnInit {
 			$('#Delete_Modal').modal('hide');
 			if (index != -1) {
 				this.companyList.splice(index, 1);
-				this.globals.message = 'Company Deleted Successfully';
-				this.globals.type = 'success';
-				this.globals.msgflag = true;	 
+				// this.globals.message = 'Company Deleted Successfully';
+				// this.globals.type = 'success';
+				// this.globals.msgflag = true;	
+				swal({
+					position: 'top-end',
+					type: 'success',
+					title: 'Company Deleted Successfully',
+					showConfirmButton: false,
+					timer: 1500
+				}) 
 			}			
 			//alert(data);
 			

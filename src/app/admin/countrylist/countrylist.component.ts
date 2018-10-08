@@ -5,7 +5,8 @@ import { ActivatedRoute } from '@angular/router';
 import { CountryService } from '../services/country.service';
 import { Globals } from '.././globals';
 
-declare var $,unescape: any;
+declare var $,unescape: any,swal: any;;
+
 @Component({
   selector: 'app-countrylist',
     providers: [ CountryService],
@@ -67,8 +68,8 @@ export class CountrylistComponent implements OnInit {
 	}
 
 	deleteConfirm(Country)
-	{ 	
-		var del={'Userid':this.globals,'id':Country.CountryId};
+	{ 
+		var del={'Userid':this.globals.authData.UserId,'id':Country.CountryId};
 		this.CountryService.delete(del)
 		.then((data) => 
 		{
@@ -76,9 +77,16 @@ export class CountrylistComponent implements OnInit {
 			$('#Delete_Modal').modal('hide');
 			if (index != -1) {
 				this.CountryList.splice(index, 1); 
-				this.globals.message = 'Country Deleted Successfully';
-				this.globals.type = 'success';
-				this.globals.msgflag = true;
+				// this.globals.message = 'Country Deleted Successfully';
+				// this.globals.type = 'success';
+				// this.globals.msgflag = true;
+				swal({
+					position: 'top-end',
+					type: 'success',
+					title: 'Country Deleted Successfully',
+					showConfirmButton: false,
+					timer: 1500
+				}) 
 	
 			}			
 			//alert(data);

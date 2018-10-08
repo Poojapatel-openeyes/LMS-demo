@@ -64,11 +64,21 @@ import { EmailtemplateComponent } from './emailtemplate/emailtemplate.component'
 import { EmailtemplateListComponent } from './emailtemplate-list/emailtemplate-list.component';
 import { EmailtemplateService } from './services/emailtemplate.service';
 
+import { LoginlogComponent } from './loginlog/loginlog.component';
+import { EmaillogComponent } from './emaillog/emaillog.component';
+import { ActivitylogComponent } from './activitylog/activitylog.component';
+import { AuditlogService } from './services/auditlog.service';
+
 const routes: Routes = [	
   {
     path: '',
         component: AdminComponent,
         children: [
+
+            //  { path : '', component : LoginComponent ,canActivate : [AuthGuard] },
+
+              { path : '', component : DashboardComponent, canActivate : [AuthGuard] },
+
 		  
               { path : 'dashboard', component : DashboardComponent, canActivate : [AuthGuard] },
 
@@ -115,8 +125,12 @@ const routes: Routes = [
               
               { path : 'emailtemplate/add', component : EmailtemplateComponent ,canActivate : [AuthGuard]},
               { path : 'emailtemplate/list', component : EmailtemplateListComponent ,canActivate : [AuthGuard]},
-              { path : 'emailtemplate/edit/:id', component : EmailtemplateComponent ,canActivate : [AuthGuard]}
-            
+              { path : 'emailtemplate/edit/:id', component : EmailtemplateComponent ,canActivate : [AuthGuard]},
+              
+              { path : 'loginlog', component : LoginlogComponent },
+              { path : 'emaillog', component : EmaillogComponent },
+              { path : 'auditlog', component : ActivitylogComponent }
+
 
         ]
   }
@@ -127,7 +141,7 @@ imports: [RouterModule.forChild(routes)],
 exports: [RouterModule],
  
   providers: [Globals,AuthService,AuthGuard,DashboardService,RegisterService,IndustryService,UserroleService,CountryService,DepartmentService,StateService,CompanyService,SettingService,
-    UserrequestService,EmailtemplateService,UserrequestinviteService
+    UserrequestService,EmailtemplateService,UserrequestinviteService,AuditlogService
   ],
   bootstrap: [AdminComponent]
 })

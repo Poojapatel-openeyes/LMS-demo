@@ -13,7 +13,15 @@ export class HeaderComponent implements OnInit {
   constructor(  private authService: AuthService,private router: Router,public globals: Globals) { }
 
   ngOnInit() {
+
+    
+  
   }
+
+  AdminLogin(){
+    window.open(this.globals.base +'/admin');
+   //window.open('http://localhost:4200/admin');
+   }
 
   logout()
   { debugger

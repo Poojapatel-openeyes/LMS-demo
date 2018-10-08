@@ -4,8 +4,7 @@ import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { DepartmentService } from '../services/department.service';
 import { Globals } from '.././globals';
-declare var $: any;
-
+declare var $: any,swal: any;
 @Component({
   selector: 'app-departmentlist',
   providers: [ DepartmentService ],
@@ -58,7 +57,8 @@ export class DepartmentlistComponent implements OnInit {
   
   deleteConfirm(Department)
 	{ 
-		this.DepartmentService.deleteDepartment(Department.DepartmentId)
+		var del={'Userid':this.globals.authData.UserId,'id':Department.DepartmentId};
+		this.DepartmentService.deleteDepartment(del)
 		.then((data) => 
 		{
 			let index = this.departmentList.indexOf(Department);
@@ -66,9 +66,16 @@ export class DepartmentlistComponent implements OnInit {
 			if (index != -1) {
 				this.departmentList.splice(index, 1);
 				//this.router.navigate(['/department/list']);
-				this.globals.message = 'Department Deleted successfully!';
-				this.globals.type = 'success';
-				this.globals.msgflag = true;	 
+				// this.globals.message = 'Department Deleted successfully!';
+				// this.globals.type = 'success';
+				// this.globals.msgflag = true;	 
+				swal({
+					position: 'top-end',
+					type: 'success',
+					title: 'Department Deleted successfully!',
+					showConfirmButton: false,
+					timer: 1500
+				})
 			}			
 			//alert(data);
 			

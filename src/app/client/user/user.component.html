@@ -5,6 +5,11 @@
    </div>
    <!--end page header -->
 </div>
+<!-- <div class="alert alert-{{globals.type}}" role="alert" *ngIf="globals.msgflag">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+    {{globals.message}}
+  </div> -->
+  
 <div class="row">
   <div class="col-lg-12">
       <!-- Form Elements -->
@@ -24,6 +29,8 @@
                   <!--<div class="col-lg-12">-->
                       <form class="form-validate" role="form" #userForm="ngForm" (ngSubmit)="addUser(userForm)">
       
+                        <div >
+                            <div  *ngIf="first1" >
 
                             <div class="form-group col-md-6">
                                     <label><span class="required">*</span>First Name</label>
@@ -49,7 +56,7 @@
                                 <div class="clearfix"></div>
                                 
 
-                                <div class="col-md-6 col-sm-12">
+                                <!-- <div class="col-md-6 col-sm-12">
                                     <div class="form-group">
                                       <label><span>*</span>Job Title</label>
                                        <input type="text" class="form-control" #Title="ngModel" [(ngModel)]="userEntity.Title" name="Title" pattern="[a-zA-Z',&.$\ ]{2,100}" maxlength="100"
@@ -59,7 +66,7 @@
                                     <span *ngIf="Title.errors && Title.errors.pattern">Please enter valid Title</span>
                                               </span>
                                     </div>
-                                  </div>
+                                  </div> -->
                                 
                                 <div class="form-group col-md-6">
                                     <label><span class="required">*</span>Email Address</label>
@@ -94,7 +101,7 @@
 
                                 <!-- <div class="clearfix"></div> -->
 
-                                <div class="col-md-6 col-sm-12">
+                                <!-- <div class="col-md-6 col-sm-12">
                                     <div class="form-group">
                                       <label><span>*</span>Phone Number </label>
                                           <input type="text" class="form-control" #PhoneNumber="ngModel" name="PhoneNumber" pattern="[0-9\-.()+\s]{3,13}" maxlength="13"
@@ -104,7 +111,7 @@
                                       <span *ngIf="PhoneNumber.errors && PhoneNumber.errors.pattern">Please enter valid phone number</span>
                                     </span>
                                     </div>
-                                  </div>
+                                  </div> -->
 
                                  
                                         
@@ -125,7 +132,7 @@
 
                                        
 
-                                        <div class="col-md-6 col-sm-12">
+                                        <!-- <div class="col-md-6 col-sm-12">
                                             <div class="form-group">
                                               <label><span>*</span>Password </label>
                                                <input type="password" class="form-control" (keyup)="checkpassword()" data-toggle="tooltip" data-placement="top" title="Use 8 or more characters with a mix of letters, numbers & symbols(! @ # $ & * _ - )" pattern="^([a-zA-Z0-9.-_-@*&$#!]{8,15})$" #Password="ngModel" 
@@ -141,11 +148,11 @@
                                                                         
                                                               </span>
                                             </div>
-                                          </div>
+                                          </div> -->
 
                                           <div class="clearfix"></div>
 
-                                          <div class="col-md-6 col-sm-12">
+                                          <!-- <div class="col-md-6 col-sm-12">
                                             <div class="form-group">
                                               <label><span>*</span>Confirm Password</label>
                                                   <input type="password" class="form-control" (keyup)="checkpassword()" pattern="[a-zA-Z0-9.-_-@$*&!#]{8,15}"#cPassword="ngModel"
@@ -163,7 +170,7 @@
                                                             </span>
                                                   </span>
                                             </div>
-                                          </div>
+                                          </div> -->
 
                                         
 <!--                                           
@@ -270,15 +277,111 @@
                             <span *ngIf="StateId.errors.required || (StateId.pristine && submitted)">Please select state </span>
                         </span>
                     </div> -->
+                   
+                       
+
+                       </div>
+
+                    </div>
+
+                    <div  *ngIf="primary">
+
+                            <div class="col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                      <label><span></span>Job Title</label>
+                                       <input type="text" class="form-control" #Title="ngModel" [(ngModel)]="userEntity.Title" name="Title" pattern="[a-zA-Z',&.$\ ]{2,100}" maxlength="100"
+                                      [ngClass]="{red_border: (Title.dirty && Title.invalid) || (Title.pristine && submitted)}" required/>  
+                                                <!-- <span class="error_span" *ngIf="(Title.dirty && Title.invalid) || (Title.pristine && submitted)"> 
+                                                  <span *ngIf="Title.errors.required || (Title.pristine && submitted)">Please enter your title</span>
+                                    <span *ngIf="Title.errors && Title.errors.pattern">Please enter valid Title</span>
+                                              </span> -->
+                                    </div>
+                            </div>
+                                
+
+                            <div class="col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                      <label><span></span>Phone Number </label>
+                                          <input type="text" class="form-control" #PhoneNumber="ngModel" name="PhoneNumber" pattern="[0-9\-.()+\s]{3,13}" maxlength="13"
+                                    [(ngModel)]="userEntity.PhoneNumber" [ngClass]="{red_border: (PhoneNumber.dirty && PhoneNumber.invalid) || (PhoneNumber.pristine && submitted)}"  required/>
+                                    <!-- <span class="error_span" *ngIf="(PhoneNumber.dirty && PhoneNumber.invalid) || (PhoneNumber.pristine && submitted)"> 
+                                      <span *ngIf="PhoneNumber.errors.required || (PhoneNumber.pristine && submitted)">Please enter your phone number</span>
+                                      <span *ngIf="PhoneNumber.errors && PhoneNumber.errors.pattern">Please enter valid phone number</span>
+                                    </span> -->
+                                    </div>
+                            </div>
 
 
-                          <div class="clearfix"></div>
-        
-      
-        
-                          <div class="form-btn">
+                        </div>
+
+                    <div   *ngIf="second1">
+                                 
+                             <div class="col-md-6 col-sm-12">
+                                            <div class="form-group">
+                                              <label><span>*</span>Password </label>
+                                               <input type="password" class="form-control" (keyup)="checkpassword()" data-toggle="tooltip" data-placement="top" title="Use 8 or more characters with a mix of letters, numbers & symbols(! @ # $ & * _ - )" pattern="^([a-zA-Z0-9.-_-@*&$#!]{8,15})$" #Password="ngModel" 
+                                               [(ngModel)]="userEntity.Password" name="Password" [ngClass]="{red_border: (Password.dirty && Password.invalid) || (Password.pristine && submitted)}" required/>
+                                                 <span class="error_span" *ngIf="(Password.dirty && Password.invalid) || (Password.pristine && submitted)">
+                                                                  <span *ngIf="Password.errors && Password.errors.required">
+                                                  Please enter your password
+                                                                          </span>
+                                                                        
+                                                                        <span *ngIf="Password.errors && Password.errors.pattern">
+                                                                              Password must be 8 to 15 characters 
+                                                                        </span>
+                                                                        
+                                                              </span>
+                                            </div>
+                                          </div>
+
+                                        
+
+                                          <div class="col-md-6 col-sm-12">
+                                            <div class="form-group">
+                                              <label><span>*</span>Confirm Password</label>
+                                                  <input type="password" class="form-control" (keyup)="checkpassword()" pattern="[a-zA-Z0-9.-_-@$*&!#]{8,15}"#cPassword="ngModel"
+                                                  [(ngModel)]="userEntity.cPassword" name="cPassword" [ngClass]="{red_border: ((cPassword.dirty && cPassword.invalid) || (cPassword.pristine && submitted)) || (same && !(cPassword.errors && cPassword.errors.pattern && cPassword.errors.required))}" required/>
+                                                 <span class="error_span" *ngIf="(cPassword.dirty && cPassword.invalid) || (cPassword.pristine && submitted) || same">
+                                                      <span *ngIf="cPassword.errors && cPassword.errors.required && !same">
+                                            Please enter your password
+                                                              </span>
+                                                            
+                                                            <span *ngIf="cPassword.errors && cPassword.errors.pattern && !same">
+                                                                  Password must be 8 to 15 characters
+                                                            </span>
+                                                            <span *ngIf="same && !(cPassword.errors && cPassword.errors.pattern && cPassword.errors.required)">
+                                                                  Those passwords didn't match
+                                                            </span>
+                                                  </span>
+                                            </div>
+                                          </div>
+
+
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <div class="form-btn">
+                        
+                        <div  *ngIf="primary">
+                            <button type="button" class="btn sub-btn btn-small margin_top"  (click)="pre()"><span>Prev</span></button>
+                            <button type="button" class="btn sub-btn btn-small margin_right" (click)="Third()"><span>Next</span></button> 
+                        </div>
+                        <div  *ngIf="second1">
+                                <button type="button" class="btn sub-btn btn-small margin_top"  (click)="pre1()"><span>Prev</span></button>
+                        </div>
+
+                        <div  *ngIf="first1">
+                                <button type="button" class="btn sub-btn btn-small margin_right" (click)="first()"><span>Next</span></button>       
+                        </div>
+
+                       
+
+                    </div>
+                    <br>
+                          <div class="form-btn" *ngIf="second1">
                             <button type="submit" class="btn sub-btn"><span>Submit</span></button>
-                           
+                            <a routerLink="/admin/country/list"></a>
                           </div>
 
                       </form>

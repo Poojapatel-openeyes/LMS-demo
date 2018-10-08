@@ -88,26 +88,6 @@ class UserInvitation_model extends CI_Model
 	
 	}
 	
-	//list project status
-	public function getlist_user_tool()
-	{
-		
-		$this->db->select('us.UserId,us.RoleId as RoleId,us.CompanyId,us.FirstName,us.LastName,us.Title,us.EmailAddress,us.Sales_Assign,us.Password,us.CountryId,us.StateId,us.City,us.ZipCode,us.PhoneNumber,us.IsActive,cp.Name,cp.Name,usms.RoleName,(select count(CAssessmentId) from tblcandidateassessment where UserId=us.UserId and EndTime is not NULL) as total,(select count(CAssessmentId) from tblcandidateassessment where UserId=us.UserId and EndTime is NULL) as notgiven');
-		$this->db->join('tblcompany cp','cp.CompanyId = us.CompanyId', 'left');
-		$this->db->join('tblmstuserrole usms','usms.RoleId = us.RoleId', 'left');
-		//$this->db->join('tbluser usms','tb.UserId = us.Sales_Assign', 'left');
-		$this->db->order_by('UserId','asc');
-		$result = $this->db->get('tbluser us');
-		
-		$res=array();
-		if($result->result())
-		{
-			$res=$result->result();
-		}
-		return $res;
-		
-	}
-		
 	
 	//Delete UserList
 	public function delete_user($post_user) 
@@ -198,6 +178,8 @@ class UserInvitation_model extends CI_Model
 	function getlist_company()
 	{
 		$this->db->select('*');
+		$this->db->where('IsActive','1');
+		$this->db->order_by('Name','asc');
 		$result=$this->db->get('tblcompany');
 		
 		$res=array();
@@ -211,7 +193,8 @@ class UserInvitation_model extends CI_Model
 	public function getlist_department()
 	{
 		$this->db->select('*');
-	//	$this->db->order_by('DepartmentName','asc');
+		$this->db->where('IsActive','1');
+		$this->db->order_by('DepartmentName','asc');
 		$result=$this->db->get('tblmstdepartment');
 		
 		$res=array();
@@ -222,20 +205,7 @@ class UserInvitation_model extends CI_Model
 		return $res;
 	}
 
-	public function getlist_sales()
-	{
-		$this->db->select('UserId as Sales_Assign,RoleId,FirstName,LastName');
-		$this->db->where('RoleId',2);
-		$this->db->order_by('FirstName','asc');
-		$result=$this->db->get('tbluser');
-		
-		$res=array();
-		if($result->result())
-		{
-			$res=$result->result();
-		}
-		return $res;
-	}
+
 
 	//list user role
 	public function getlist_userrole()
@@ -243,6 +213,8 @@ class UserInvitation_model extends CI_Model
 		$this->db->select('RoleId,RoleName');
 		$this->db->where('RoleId!=','5');
 		$this->db->where('RoleId!=','1');
+		$this->db->where('IsActive','1');
+		$this->db->order_by('RoleName','asc');
 		$result=$this->db->get('tblmstuserrole');
 		
 		$res=array();

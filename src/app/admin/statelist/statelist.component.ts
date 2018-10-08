@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { StateService } from '../services/state.service';
 import { Globals } from '.././globals';
-declare var $;
+declare var $,swal: any;
 
 @Component({
   selector: 'app-statelist',
@@ -65,7 +65,7 @@ export class StatelistComponent implements OnInit {
   
   deleteConfirm(state)
 	{
-		var del={'Userid':this.globals,'id':state.StateId};
+		var del={'Userid':this.globals.authData.UserId,'id':state.StateId};
 		this.StateService.deleteState(del)
 		.then((data) => 
 		{
@@ -76,10 +76,17 @@ export class StatelistComponent implements OnInit {
 				 
 			}			
 			//alert(data);
-			this.globals.message = 'State Deleted Successfully';
-			this.globals.type = 'success';
-			this.globals.msgflag = true;
+			// this.globals.message = 'State Deleted Successfully';
+			// this.globals.type = 'success';
+			// this.globals.msgflag = true;
 
+			swal({
+				position: 'top-end',
+				type: 'success',
+				title: 'State Deleted Successfully!',
+				showConfirmButton: false,
+				timer: 1500
+			})
 		}, 
 		(error) => 
 		{

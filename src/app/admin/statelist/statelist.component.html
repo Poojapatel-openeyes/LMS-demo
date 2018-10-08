@@ -54,8 +54,13 @@
                           <div class="inline_delbtn tooltip_inline"  data-toggle="tooltip" data-placement="bottom"   title="Edit" >    
                              <button class="btn btn-default btn-rounded btn-sm" routerLink="/admin/state/edit/{{state.StateId}}" ><span class="fa fa-pencil"></span></button>
                           </div>
+
+                          <div class="inline_delbtn tooltip_inline"  data-toggle="tooltip" data-placement="bottom" title="State can't be deleted as it is already assigned to an active User's profile" > 
+                              <button *ngIf="state.isdisabled>0"  [disabled]="state.isdisabled>0" data-type="Record" class="btn btn-danger btn-rounded btn-sm delete-user-row-with-ajax-button"><span class="fa fa-times"></span></button>
+                            </div>  
+
                           <div class="inline_delbtn tooltip_inline"  data-toggle="tooltip" data-placement="bottom"   title="Delete"> 
-                             <button data-type="Record" class="btn btn-danger btn-rounded btn-sm delete-user-row-with-ajax-button" (click)="deleteState(state)"><span class="fa fa-times"></span></button>
+                             <button  *ngIf="state.isdisabled==0" data-type="Record" class="btn btn-danger btn-rounded btn-sm delete-user-row-with-ajax-button" (click)="deleteState(state)"><span class="fa fa-times"></span></button>
                           </div>
                         </td>
                   </tr>

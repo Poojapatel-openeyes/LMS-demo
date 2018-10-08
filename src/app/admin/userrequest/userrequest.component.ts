@@ -5,7 +5,7 @@ import { Globals } from '.././globals';
 import { ActivatedRoute } from '@angular/router';
 //import { UserrequestinviteService } from '../services/userrequest.service';
 import { UserrequestinviteService } from '../services/userrequestinvite.service';
-
+declare var $,swal: any;
 @Component({
   selector: 'app-userrequest',
   providers: [UserrequestinviteService],
@@ -34,10 +34,10 @@ export class UserrequestComponent implements OnInit {
 
 			this.UserrequestinviteService.getAllDefaultData()
 			.then((data) => {
-				this.CountryList = data['country'];
+				//this.CountryList = data['country'];
 				this.roleList = data['role'];
 				this.companyList = data['company'];
-				this.stateList = data['state'];
+			//	this.stateList = data['state'];
 				this.departmentList = data['department'];
 			},
 			(error) => {
@@ -93,14 +93,28 @@ export class UserrequestComponent implements OnInit {
 						this.userEntity = {};
 						userForm.form.markAsPristine();
 						if (id) {
-							this.globals.message = 'Data Updated Successfully';
-							this.globals.type = 'success';
-							this.globals.msgflag = true;
+							// this.globals.message = 'Data Updated Successfully';
+							// this.globals.type = 'success';
+							// this.globals.msgflag = true;
+							swal({
+								position: 'top-end',
+								type: 'success',
+								title: 'Data Updated Successfully!',
+								showConfirmButton: false,
+								timer: 1500
+							})
 						} else {
 							
-							this.globals.message = 'Invitation Code Sent Successfully';
-							this.globals.type = 'success';
-							this.globals.msgflag = true;
+							// this.globals.message = 'Invitation Code Sent Successfully';
+							// this.globals.type = 'success';
+							// this.globals.msgflag = true;
+							swal({
+								position: 'top-end',
+								type: 'success',
+								title: 'Invitation Code Sent Successfully!',
+								showConfirmButton: false,
+								timer: 1500
+							})
 						
 						}
 	

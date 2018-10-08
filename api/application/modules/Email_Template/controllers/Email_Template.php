@@ -50,25 +50,43 @@ class Email_Template extends CI_Controller {
 			echo json_encode($data);			
 		}
 	}	
-	
-	public function delete($email_id = NULL) {
-		
-		if(!empty($email_id)) {
 
-			$result = $this->Email_Template_model->delete_email($email_id);
-			if($result) {
-				echo json_encode("Delete successfully");	
-			} else {
-				return $this->output
-				->set_status_header(404)
-				->set_output(json_encode(array(
-						'text' => "You can't delete this record because of their dependency in another table.",
-						'type' => 'danger'
-				)));
-			}
+
+	public function delete() {
+		$email_id = json_decode(trim(file_get_contents('php://input')), true);		
+
+		if ($email_id) {
+			if($email_id['id'] > 0){
+				$result = $this->Email_Template_model->delete_email($email_id);
+				if($result) {
+					
+					echo json_encode("Delete successfully");
+				}
+				}
+		
 			
-		} 			
+		} 
+			
 	}
+	
+	// public function delete($email_id = NULL) {
+		
+	// 	if(!empty($email_id)) {
+
+	// 		$result = $this->Email_Template_model->delete_email($email_id);
+	// 		if($result) {
+	// 			echo json_encode("Delete successfully");	
+	// 		} else {
+	// 			return $this->output
+	// 			->set_status_header(404)
+	// 			->set_output(json_encode(array(
+	// 					'text' => "You can't delete this record because of their dependency in another table.",
+	// 					'type' => 'danger'
+	// 			)));
+	// 		}
+			
+	// 	} 			
+	// }
 	
 	public function getDefaultList() {		
 		//$data="";		

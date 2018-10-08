@@ -39,19 +39,25 @@ class Userrole extends MY_Controller
 	
 	
 	//Delete UserList
-	public function delete($role_id = NULL) 
-	{
 
-		if(!empty($role_id)) {
+	
+	public function delete() {
+		$role_id = json_decode(trim(file_get_contents('php://input')), true);		
 
-			$result = $this->Userrole_model->delete_userrole($role_id);			
-			if($result) {
-				echo json_encode("Delete successfully");	
-			}	
+		if ($role_id) {
+			if($role_id['id'] > 0){
+				$result = $this->Userrole_model->delete_userrole($role_id);
+				if($result) {
+					
+					echo json_encode("Delete successfully");
+				}
+				}
+		
 			
 		} 
 			
 	}
+	
 	
 	//get userId edit
 	public function getById($role_id=null)

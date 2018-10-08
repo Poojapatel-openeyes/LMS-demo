@@ -19,14 +19,21 @@ class Country_model extends CI_Model
 				'CountryAbbreviation' => trim($post_Country['CountryAbbreviation']),
 				'PhonePrefix' => trim($post_Country['PhonePrefix']),
 				"IsActive"=>$IsActive,
-				"CreatedBy" =>1,
-				"UpdatedBy" =>1
+				"CreatedBy" =>trim($post_Country['CreatedBy']),
+				"CreatedOn" =>date('y-m-d H:i:s')
 			
 			);
 			
 			$res = $this->db->insert('tblmstcountry',$Country_data);
 			
 			if($res) {
+				$log_data = array(
+					'UserId' => trim($post_Country['CreatedBy']),
+					'Module' => 'Country',
+					'Activity' =>'Add'
+	
+				);
+				$log = $this->db->insert('tblactivitylog',$log_data);
 				return true;
 			} else {
 				return false;
@@ -39,9 +46,10 @@ class Country_model extends CI_Model
 	
 	public function getlist_Country() {
 	
-		$this->db->select('*');
-		$this->db->order_by('CountryName','asc');
-		$result = $this->db->get('tblmstcountry');
+		//$this->db->select('*');
+		$this->db->select('co.CountryId,co.CountryName,co.CountryAbbreviation,co.PhonePrefix,co.IsActive,(SELECT COUNT(u.UserId) FROM tbluser as u WHERE u.CountryId=co.CountryId) as isdisabled');
+		$this->db->order_by('co.CountryName','asc');
+		$result = $this->db->get('tblmstcountry co');
 		$res = array();
 		if($result->result()) {
 			$res = $result->result();
@@ -86,7 +94,7 @@ class Country_model extends CI_Model
 				'CountryAbbreviation' => trim($post_Country['CountryAbbreviation']),
 				'PhonePrefix' => trim($post_Country['PhonePrefix']),
 				"IsActive"=>$IsActive,
-				"UpdatedBy" =>1,
+				"UpdatedBy" =>  trim($post_Country['UpdatedBy']),
 				'UpdatedOn' => date('y-m-d H:i:s')
 			
 			);
@@ -95,6 +103,13 @@ class Country_model extends CI_Model
 			$res = $this->db->update('tblmstcountry',$Country_data);
 			
 			if($res) {
+				$log_data = array(
+					'UserId' =>  trim($post_Country['UpdatedBy']),
+					'Module' => 'Country',
+					'Activity' =>'Update'
+	
+				);
+				$log = $this->db->insert('tblactivitylog',$log_data);
 				return true;
 			} else {
 				return false;

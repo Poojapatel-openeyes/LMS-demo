@@ -62,17 +62,17 @@ class UserInvitation extends CI_Controller {
 								}
 		
 						
+								$config['protocol']=PROTOCOL;
+								$config['smtp_host']=SMTP_HOST;
+								$config['smtp_port']=SMTP_PORT;
+								$config['smtp_user']=$smtpEmail;
+								$config['smtp_pass']=$smtpPassword;
+
 								// $config['protocol']  = 'smtp';
 								// $config['smtp_host'] = 'ssl://smtp.googlemail.com';
 								// $config['smtp_port'] = '465';
 								// $config['smtp_user']='myopeneyes3937@gmail.com';
 								// $config['smtp_pass']='W3lc0m3@2018';
-
-								$config['protocol']='mail';
-								$config['smtp_host']='vps40446.inmotionhosting.com';
-								$config['smtp_port']='587';
-								$config['smtp_user']=$smtpEmail;
-								$config['smtp_pass']=$smtpPassword;
 								
 								$config['charset']='utf-8';
 								$config['newline']="\r\n";
@@ -188,11 +188,17 @@ class UserInvitation extends CI_Controller {
 								}
 		
 						
-								$config['protocol']  = 'smtp';
-								$config['smtp_host'] = 'ssl://smtp.googlemail.com';
-								$config['smtp_port'] = '465';
-								$config['smtp_user']='myopeneyes3937@gmail.com';
-								$config['smtp_pass']='W3lc0m3@2018';
+								$config['protocol']=PROTOCOL;
+								$config['smtp_host']=SMTP_HOST;
+								$config['smtp_port']=SMTP_PORT;
+								$config['smtp_user']=$smtpEmail;
+								$config['smtp_pass']=$smtpPassword;
+
+								// $config['protocol']  = 'smtp';
+								// $config['smtp_host'] = 'ssl://smtp.googlemail.com';
+								// $config['smtp_port'] = '465';
+								// $config['smtp_user']='myopeneyes3937@gmail.com';
+								// $config['smtp_pass']='W3lc0m3@2018';
 								
 								$config['charset']='utf-8';
 								$config['newline']="\r\n";
@@ -340,11 +346,17 @@ class UserInvitation extends CI_Controller {
 						}
 
 				
-						$config['protocol']  = 'smtp';
-						$config['smtp_host'] = 'ssl://smtp.googlemail.com';
-						$config['smtp_port'] = '465';
-						$config['smtp_user']='myopeneyes3937@gmail.com';
-						$config['smtp_pass']='W3lc0m3@2018';
+						$config['protocol']=PROTOCOL;
+						$config['smtp_host']=SMTP_HOST;
+						$config['smtp_port']=SMTP_PORT;
+						$config['smtp_user']=$smtpEmail;
+						$config['smtp_pass']=$smtpPassword;
+
+						// $config['protocol']  = 'smtp';
+						// $config['smtp_host'] = 'ssl://smtp.googlemail.com';
+						// $config['smtp_port'] = '465';
+						// $config['smtp_user']='myopeneyes3937@gmail.com';
+						// $config['smtp_pass']='W3lc0m3@2018';
 						
 						$config['charset']='utf-8';
 						$config['newline']="\r\n";

@@ -55,8 +55,6 @@ class Setting extends CI_Controller {
 	}	
 	
 	
-		
-
 	public function delete() {
 		$post_Setting = json_decode(trim(file_get_contents('php://input')), true);		
 
@@ -73,5 +71,23 @@ class Setting extends CI_Controller {
 		} 
 			
 	}
+
+
+	// public function delete() {
+	// 	$post_Setting = json_decode(trim(file_get_contents('php://input')), true);		
+
+	// 	if ($post_Setting) {
+	// 		if($post_Setting['id'] > 0){
+	// 			$result = $this->Setting_model->delete_Setting($post_Setting);
+	// 			if($result) {
+					
+	// 				echo json_encode("Delete successfully");
+	// 			}
+	// 			}
+		
+			
+	// 	} 
+			
+	// }
 	
 }

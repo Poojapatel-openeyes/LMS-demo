@@ -51,14 +51,20 @@ class Email_Template_model extends CI_Model
 				'Bcc' => trim($post_email['Bcc']),
 				'BccEmail' => $BccEmail,
 				'IsActive' => $IsActive,
-				'CreatedBy' =>1,
-				'UpdatedBy' => trim($post_email['UpdatedBy']),
-				'UpdatedOn' => date('y-m-d H:i:s'),
+				'CreatedBy' => trim($post_email['CreatedBy']),	
+				'CreatedOn' => date('y-m-d H:i:s'),
 			);
 
 			$res = $this->db->insert('tblemailtemplate',$email_data);
 			
 			if($res) {
+				$log_data = array(
+					'UserId' =>trim($post_email['CreatedBy']),
+					'Module' => 'Email Template',
+					'Activity' =>'Add'
+	
+				);
+				$log = $this->db->insert('tblactivitylog',$log_data);
 				return true;
 			} else {
 				return false;
@@ -165,6 +171,13 @@ class Email_Template_model extends CI_Model
 			$res = $this->db->update('tblemailtemplate',$email_data);
 			
 			if($res) {
+				$log_data = array(
+					'UserId' => trim($post_email['UpdatedBy']),
+					'Module' => 'Email Template',
+					'Activity' =>'Update'
+	
+				);
+				$log = $this->db->insert('tblactivitylog',$log_data);
 				return true;
 			} else {
 				return false;
@@ -180,10 +193,17 @@ class Email_Template_model extends CI_Model
 	
 		if($email_id) {
 			
-			$this->db->where('EmailId',$email_id);
+			$this->db->where('EmailId',$email_id['id']);
 			$res = $this->db->delete('tblemailtemplate');
 			
 			if($res) {
+				$log_data = array(
+					'UserId' =>  trim($email_id['Userid']),
+					'Module' => 'Email Template',
+					'Activity' =>'Delete'
+	
+				);
+				$log = $this->db->insert('tblactivitylog',$log_data);
 				return true;
 			} else {
 				return false;

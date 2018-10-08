@@ -46,6 +46,16 @@ export class OpenregisterComponent implements OnInit {
 						
 					});
 
+					let id = this.route.snapshot.paramMap.get('id');
+
+					this.header = 'Free';
+					this.userEntity = {};
+					this.userEntity.UserId = 0;
+					this.userEntity.RoleId ='';
+					this.userEntity.CompanyId ='';
+					this.userEntity.DepartmentId = '';
+					
+
   }
 
 
@@ -53,24 +63,31 @@ export class OpenregisterComponent implements OnInit {
 		debugger
 			
 			let id = this.route.snapshot.paramMap.get('id');
-			
+			this.submitted = true;
 			if (userForm.valid) {
-				
+				this.submitted = false;
 				//this.btn_disable = true;
 				this.OpenregisterService.add(this.userEntity)
 					.then((data) => {
 
 
-						alert('success');
+						if(data=='Fail'){
+							this.globals.message = 'Your email address already Registered!';
+							this.globals.type = 'danger';
+							this.globals.msgflag = true;
+							this.router.navigate(['home']);
+						} else {
+						//alert('success');
 						this.btn_disable = false;
 						this.submitted = false;
 						this.userEntity = {};
-						userForm.form.markAsPristine();
-						this.globals.message = 'You are registered successfully!';
+						userForm.form.markAsPristine();	
+						this.globals.message = 'User Invited Successfully!';
 						this.globals.type = 'success';
-	 					this.globals.msgflag = true;
-	
-						this.router.navigate(['dashboard']);
+						this.globals.msgflag = true;
+						this.router.navigate(['home']);
+						}
+					
 					},
 					(error) => {
 						//alert('error');

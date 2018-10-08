@@ -6,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { JwtHelper } from 'angular2-jwt';
 
-declare var $;
+declare var $,swal: any;
 
 @Component({
 	selector: 'app-user',
@@ -24,6 +24,9 @@ export class UserComponent implements OnInit {
 	btn_disable;
 	header;
 	same;
+	primary;
+	second1;
+	first1;
 	// type;
 	// message;
 	// msgflag;
@@ -34,7 +37,7 @@ export class UserComponent implements OnInit {
 		ngOnInit() {
 			//this.globals = this.global;
 		
-		
+		this.first1=true;
 			  this.userEntity={};
 			  
 			let id = this.route.snapshot.paramMap.get('id');
@@ -45,9 +48,16 @@ export class UserComponent implements OnInit {
 			{ 
 				if(data=='fail'){
 		
-					this.globals.message = 'You are already used this link';
-					this.globals.type = 'danger';
-					this.globals.msgflag = true;
+					// this.globals.message = 'You are already used this link';
+					// this.globals.type = 'danger';
+					// this.globals.msgflag = true;
+					swal({
+						position: 'top-end',
+						type: 'danger',
+						title: 'You are already used this link',
+						showConfirmButton: false,
+						timer: 1500
+					})
 					this.router.navigate(['login']);
 				} 	
 				else
@@ -149,13 +159,19 @@ export class UserComponent implements OnInit {
 						this.submitted = false;
 						this.userEntity = {};
 						userForm.form.markAsPristine();
-						this.globals.message = 'You are registered successfully!';
-						this.globals.type = 'success';
-	 					this.globals.msgflag = true;
+						// this.globals.message = 'You are registered successfully!';
+						// this.globals.type = 'success';
+						 // this.globals.msgflag = true;
+						 swal({
+							position: 'top-end',
+							type: 'success',
+							title: 'You are registered successfully!',
+							showConfirmButton: false,
+							timer: 1500
+						})
 	
-						//this.router.navigate(['home']);
-						 // this.router.navigate(['/userprofile/edit/{{globals.authData.UserId}}']);
-						 this.router.navigate(['/userprofile/edit/'+this.globals.authData.UserId]);
+						this.router.navigate(['dashboard']);
+						// this.router.navigate(['/userprofile/edit/'+this.globals.authData.UserId]);
 					},
 					(error) => {
 						//alert('error');
@@ -201,7 +217,36 @@ export class UserComponent implements OnInit {
 			}
 			
 		}
+
+		first()
+		{
+			this.primary=true;
+			this.submitted = false;
+			this.btn_disable = false;
+			this.second1=false;
+			this.first1=false;	
 	
+		}
+		pre(){
+			this.primary=false;
+			this.first1=true;
+			this.second1=false;
+		}
+
+		Third()
+		{
+			this.second1=true;
+			this.submitted = false;
+			this.btn_disable = false;
+			this.primary=false;
+			this.first1=false;
+		}
+		pre1(){
+			this.primary=true;
+			this.second1=false;
+			this.first1=false;
+		}
+
 	}
 	
 

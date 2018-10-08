@@ -83,24 +83,21 @@ defined('EXIT_USER_INPUT')     OR define('EXIT_USER_INPUT', 7); // invalid user 
 defined('EXIT_DATABASE')       OR define('EXIT_DATABASE', 8); // database error
 defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automatically-assigned error code
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
+
 //   Local
 
-//define('ACTIVE_GROUP', 'default'); // database mode
-//define('BASE_URL', 'http://localhost:4200'); // local Base URL
-
+// define('ACTIVE_GROUP', 'default'); // database mode
+// define('BASE_URL', 'http://localhost:4200'); // local Base URL
+// define('PROTOCOL', 'smtp'); // smtp details
+// define('SMTP_HOST', 'ssl://smtp.googlemail.com'); 
+// define('SMTP_PORT', '465'); 
 
 
 //   Development
 
 define('ACTIVE_GROUP', 'Development'); // database mode
 define('BASE_URL', 'http://lms-test.devbyopeneyes.com'); // Development Base URL
+define('PROTOCOL', 'mail'); // smtp details
+define('SMTP_HOST', 'vps40446.inmotionhosting.com'); 
+define('SMTP_PORT', '587'); 
 
-//   QA
-
-//define('ACTIVE_GROUP', 'QA'); // database mode
-//define('BASE_URL', 'http://qaassessment.afponline.org'); // QA Base URL 
-
-//   production
-
-//define('ACTIVE_GROUP', 'production'); // database mode
-//define('BASE_URL', 'http://assessment.afponline.org'); // production Base URL
